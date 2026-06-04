@@ -19,7 +19,7 @@ Before building any section: check in with the user on any placeholders, uncerta
 STRUCTURE
 /
 ├── CLAUDE.md
-├── index.html              ← the entire site lives here
+├── home.html              ← the entire site lives here
 ├── .gitignore
 ├── .git/
 ├── .claude/
