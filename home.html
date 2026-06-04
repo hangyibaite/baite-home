@@ -114,23 +114,135 @@
         }
 
         .btn-primary {
+            position: relative;
+            overflow: hidden;
             background: #F97316;
             color: #fff;
             font-family: 'Manrope', sans-serif;
             font-weight: 800;
             font-size: 0.875rem;
-            border: none;
+            border: 3px solid #000;
             border-radius: 60px;
             padding: 12px 28px;
             cursor: pointer;
             text-decoration: none;
             display: inline-block;
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
-            transition: background 0.25s ease;
+            z-index: 0;
+        }
+
+        /* sliding fill layer — orange for base hero button */
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: #1A1A1A;
+            border-radius: 60px;
+            transform: translateX(0);
+            transition: left 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: -1;
+        }
+
+        .btn-primary:hover::before {
+            left: 0;
+        }
+
+        /* keep text above the sliding layer */
+        .btn-primary span,
+        .btn-primary {
+            transition: color 0.2s ease 0.1s;
         }
 
         .btn-primary:hover {
-            background: var(--accent);
+            color: #fff;
+        }
+
+        /* Nav + Conviction: black base, black slide layer */
+        .nav .btn-primary,
+        .conviction-cta .btn-primary {
+            background: #1A1A1A;
+            color: #fff;
+            border: 3px solid #000;
+        }
+
+        .nav .btn-primary::before,
+        .conviction-cta .btn-primary::before {
+            background: #F97316;
+        }
+
+        .nav .btn-primary:hover,
+        .conviction-cta .btn-primary:hover {
+            color: #fff;
+        }
+
+        /* ── SOCIAL PROOF PILL ── */
+        .social-proof-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: clamp(6px, 1.2vw, 10px);
+            border: 3px solid #000;
+            border-radius: 9999px;
+            padding: clamp(4px, 0.8vw, 6px) clamp(10px, 2vw, 16px) clamp(4px, 0.8vw, 6px) clamp(4px, 0.8vw, 6px);
+            position: absolute;
+            top: 68px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            flex-shrink: 0;
+            background: var(--bg);
+            white-space: nowrap;
+        }
+
+        .social-proof-text {
+            font-size: clamp(0.7rem, 1.5vw, 0.82rem);
+        }
+
+        @media (max-width: 768px) {
+            .social-proof-pill {
+                top: 44px;
+                transform: translateX(-50%) scale(0.72);
+                transform-origin: center top;
+                border-width: 2px;
+            }
+        }
+
+        .avatar-stack {
+            display: flex;
+            align-items: center;
+        }
+
+        .avatar-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid var(--bg);
+            background: var(--bg-elevated);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            margin-left: -8px;
+            flex-shrink: 0;
+        }
+
+        .avatar-circle:first-child {
+            margin-left: 0;
+        }
+
+        .social-proof-text {
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            color: var(--text);
+            white-space: nowrap;
+        }
+
+        /* ── HERO FISH CURSOR ── */
+        .hero-fish-cursor,
+        .hero-fish-cursor * {
+            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24'><text y='24' font-size='24'>🐟</text></svg>") 16 16, auto !important;
         }
 
         /* ── HERO ── */
@@ -454,6 +566,168 @@
             line-height: 1.55;
         }
 
+        /* ── CTA EDITORIAL ── */
+        .cta-editorial {
+            background: #000;
+            min-height: 95vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: clamp(39px, 8vw, 120px) 2.5vw;
+        }
+
+        .cta-editorial-inner {
+            width: 95vw;
+            max-width: 95vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: clamp(36px, 4.5vw, 60px);
+            box-sizing: border-box;
+        }
+
+        .cta-headline {
+            /* font-size scales with viewport so text never overflows */
+            font-size: clamp(2rem, 7.5vw, 7rem);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 0.9;
+            color: #fff;
+            text-align: center;
+            /* balance distributes words evenly, no orphan lines */
+            text-wrap: balance;
+            width: 95vw;
+            max-width: 95vw;
+            overflow-wrap: break-word;
+            box-sizing: border-box;
+        }
+
+        .cta-sub {
+            font-size: clamp(0.95rem, 1.4vw, 1.2rem);
+            font-weight: 400;
+            line-height: 1.6;
+            color: #fff;
+            text-align: center;
+            max-width: 56ch;
+            letter-spacing: -0.01em;
+        }
+
+        @media (max-width: 768px) {
+            .cta-editorial {
+                min-height: unset;
+                align-items: flex-start;
+                padding-top: clamp(48px, 8vw, 72px);
+                padding-bottom: 0;
+            }
+
+            .cta-btn-perspective {
+                margin-bottom: 0;
+            }
+        }
+
+        /* ── TESTIMONIALS ── */
+        .testimonials {
+            background: #000;
+            padding: clamp(30px, 4vw, 50px) 0;
+            overflow: hidden;
+        }
+
+        .testimonials-label {
+            text-align: center;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: clamp(32px, 4vw, 52px);
+        }
+
+        .testimonials-track-wrapper {
+            overflow: hidden;
+            width: 100%;
+            border-top: 3px solid #fff;
+            border-bottom: 3px solid #fff;
+            padding: 28px 0;
+        }
+
+        .testimonials-track {
+            display: flex;
+            gap: 20px;
+            width: max-content;
+            animation: testi-scroll 36s linear infinite;
+        }
+
+        @keyframes testi-scroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .testi-card {
+            background: #fff;
+            border-radius: 18px;
+            padding: 28px 28px 24px;
+            width: 320px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .testi-quote {
+            font-size: 1rem;
+            font-weight: 500;
+            line-height: 1.55;
+            color: #111;
+            flex: 1;
+        }
+
+        .testi-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 18px;
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+            gap: 12px;
+        }
+
+        .testi-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .testi-name {
+            font-size: 0.88rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: #111;
+        }
+
+        .testi-role {
+            font-size: 0.78rem;
+            font-weight: 400;
+            color: #666;
+        }
+
+        .testi-pfp {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #e5e5e5;
+            flex-shrink: 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
         /* ── CONVICTION ── */
         .conviction {
             background: var(--bg);
@@ -506,8 +780,10 @@
         }
 
         .conviction-cta .btn-primary {
-            font-weight: 500;
+            font-weight: 700;
             font-size: clamp(1.5rem, 1.8vw, 1.625rem);
+            padding: 18px 48px;
+            border-width: 4px;
         }
 
         @media (max-width: 768px) {
@@ -558,6 +834,63 @@
                 padding: 14px 0;
             }
         }
+
+        /* ── 3D CTA BUTTON ── */
+        .cta-btn-perspective {
+            perspective: 1200px;
+            display: flex;
+            justify-content: center;
+            padding: 0;
+            margin-top: clamp(1rem, 3vw, 2rem);
+            margin-bottom: clamp(3rem, 6vw, 5rem);
+        }
+
+        .cta-3d-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.25rem 2.5rem;
+            font-family: 'Manrope', sans-serif;
+            font-size: clamp(1.09rem, 1.38vw, 1.265rem);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: -0.01em;
+            color: #fff;
+            text-decoration: none;
+            border: 3px solid #fff;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 50%), #EA6200;
+            box-shadow:
+                1px 1px 0 #000,  2px 2px 0 #000,  3px 3px 0 #000,  4px 4px 0 #000,
+                5px 5px 0 #000,  6px 6px 0 #000,  7px 7px 0 #000,  8px 8px 0 #000,
+                9px 9px 0 #000,  10px 10px 0 #000, 11px 11px 0 #000, 12px 12px 0 #000,
+                13px 13px 0 #000, 14px 14px 0 #000, 15px 15px 0 #000, 16px 16px 0 #000,
+                16px 16px 30px rgba(0,0,0,0.6),
+                0 0 28px rgba(234,98,0,0.18), 0 0 60px rgba(234,98,0,0.07);
+            transform-style: preserve-3d;
+            transform: rotateX(8deg) rotateY(-8deg) translateZ(30px) scale(2.04);
+            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s ease;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .cta-3d-btn-text {
+            position: relative;
+            transform: translateZ(40px);
+            display: inline-flex;
+            align-items: center;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.35);
+        }
+
+        /* diagonal gloss overlay */
+        .cta-3d-btn-gloss {
+            position: absolute;
+            inset: 0;
+            border-radius: 9px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%);
+            pointer-events: none;
+        }
     </style>
 </head>
 
@@ -582,6 +915,16 @@
     <!-- HERO -->
     <section class="hero" id="hero">
         <div class="hero-content">
+
+            <div class="social-proof-pill">
+                <div class="avatar-stack">
+                    <div class="avatar-circle">👩🏽</div>
+                    <div class="avatar-circle">👨🏻</div>
+                    <div class="avatar-circle">👩🏾</div>
+                </div>
+                <span class="social-proof-text">200+ have joined</span>
+            </div>
+
             <h1 class="hero-headline" id="hero-headline">
                 <span class="word-wrap"><span class="word-inner">TURN</span></span>
                 <span class="word-wrap"><span class="word-inner">YOUR</span></span>
@@ -720,9 +1063,148 @@
         </div>
     </section>
 
-    <!-- placeholder -->
-    <section id="community" style="height:60vh;display:flex;align-items:center;justify-content:center;">
-        <!-- PLACEHOLDER: Community / next section -->
+    <!-- SECTION 5 — TESTIMONIALS -->
+    <section class="testimonials" id="community">
+        <div class="testimonials-track-wrapper">
+            <div class="testimonials-track">
+
+                <!-- Set A -->
+                <div class="testi-card">
+                    <p class="testi-quote">"This is the most goated course ever. I learnt more than I could've ever
+                        imagined in just 20 days and scaled to over X in revenue."</p>
+                    <div class="testi-footer">
+                        <div class="testi-meta">
+                            <span class="testi-name">Alex R.</span>
+                            <span class="testi-role">Content Creator</span>
+                        </div>
+                        <div class="testi-pfp">👤</div>
+                    </div>
+                </div>
+                <div class="testi-card">
+                    <p class="testi-quote">"This is the most goated course ever. I learnt more than I could've ever
+                        imagined in just 20 days and scaled to over X in revenue."</p>
+                    <div class="testi-footer">
+                        <div class="testi-meta">
+                            <span class="testi-name">Maya T.</span>
+                            <span class="testi-role">Online Coach</span>
+                        </div>
+                        <div class="testi-pfp">👤</div>
+                    </div>
+                </div>
+                <div class="testi-card">
+                    <p class="testi-quote">"This is the most goated course ever. I learnt more than I could've ever
+                        imagined in just 20 days and scaled to over X in revenue."</p>
+                    <div class="testi-footer">
+                        <div class="testi-meta">
+                            <span class="testi-name">Jordan K.</span>
+                            <span class="testi-role">Brand Strategist</span>
+                        </div>
+                        <div class="testi-pfp">👤</div>
+                    </div>
+                </div>
+                <div class="testi-card">
+                    <p class="testi-quote">"This is the most goated course ever. I learnt more than I could've ever
+                        imagined in just 20 days and scaled to over X in revenue."</p>
+                    <div class="testi-footer">
+                        <div class="testi-meta">
+                            <span class="testi-name">Priya M.</span>
+                            <span class="testi-role">Course Creator</span>
+                        </div>
+                        <div class="testi-pfp">👤</div>
+                    </div>
+                </div>
+                <div class="testi-card">
+                    <p class="testi-quote">"This is the most goated course ever. I learnt more than I could've ever
+                        imagined in just 20 days and scaled to over X in revenue."</p>
+                    <div class="testi-footer">
+                        <div class="testi-meta">
+                            <span class="testi-name">Sam L.</span>
+                            <span class="testi-role">Digital Marketer</span>
+                        </div>
+                        <div class="testi-pfp">👤</div>
+                    </div>
+                </div>
+
+                <!-- Set B — duplicate for seamless loop -->
+                <div class="testi-card">
+                    <p class="testi-quote">"This is the most goated course ever. I learnt more than I could've ever
+                        imagined in just 20 days and scaled to over X in revenue."</p>
+                    <div class="testi-footer">
+                        <div class="testi-meta">
+                            <span class="testi-name">Alex R.</span>
+                            <span class="testi-role">Content Creator</span>
+                        </div>
+                        <div class="testi-pfp">👤</div>
+                    </div>
+                </div>
+                <div class="testi-card">
+                    <p class="testi-quote">"This is the most goated course ever. I learnt more than I could've ever
+                        imagined in just 20 days and scaled to over X in revenue."</p>
+                    <div class="testi-footer">
+                        <div class="testi-meta">
+                            <span class="testi-name">Maya T.</span>
+                            <span class="testi-role">Online Coach</span>
+                        </div>
+                        <div class="testi-pfp">👤</div>
+                    </div>
+                </div>
+                <div class="testi-card">
+                    <p class="testi-quote">"This is the most goated course ever. I learnt more than I could've ever
+                        imagined in just 20 days and scaled to over X in revenue."</p>
+                    <div class="testi-footer">
+                        <div class="testi-meta">
+                            <span class="testi-name">Jordan K.</span>
+                            <span class="testi-role">Brand Strategist</span>
+                        </div>
+                        <div class="testi-pfp">👤</div>
+                    </div>
+                </div>
+                <div class="testi-card">
+                    <p class="testi-quote">"This is the most goated course ever. I learnt more than I could've ever
+                        imagined in just 20 days and scaled to over X in revenue."</p>
+                    <div class="testi-footer">
+                        <div class="testi-meta">
+                            <span class="testi-name">Priya M.</span>
+                            <span class="testi-role">Course Creator</span>
+                        </div>
+                        <div class="testi-pfp">👤</div>
+                    </div>
+                </div>
+                <div class="testi-card">
+                    <p class="testi-quote">"This is the most goated course ever. I learnt more than I could've ever
+                        imagined in just 20 days and scaled to over X in revenue."</p>
+                    <div class="testi-footer">
+                        <div class="testi-meta">
+                            <span class="testi-name">Sam L.</span>
+                            <span class="testi-role">Digital Marketer</span>
+                        </div>
+                        <div class="testi-pfp">👤</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6 — CTA EDITORIAL -->
+    <section class="cta-editorial">
+        <div class="cta-editorial-inner">
+            <h2 class="cta-headline">LOOK, YOU FOUND WHAT YOU NEED. YOU HAVE 2 CHOICES NOW.</h2>
+            <p class="cta-sub">You either close this tab and return to the endless void of your algorithmic timeline OR
+                you can click the suspiciously vibrant button below and actually change your workflow for the better. We
+                won't beg. But our database has an empty row with your name on it, and it's looking incredibly lonely.
+                So hit the damn button already 👇👇👇
+            </p>
+
+            <!-- 3D tilt button -->
+            <div class="cta-btn-perspective">
+                <a href="#community" class="cta-3d-btn" id="cta-3d-btn">
+                    <span class="cta-3d-btn-gloss"></span>
+                    <span class="cta-3d-btn-text">Hit the damn button</span>
+                </a>
+            </div>
+
+        </div>
     </section>
 
     <script type="importmap">
@@ -1026,6 +1508,122 @@
             }
         }
         drawDistortedGrid();
+
+        /* ── 3D CTA BUTTON TILT ── */
+        (function () {
+            const btn = document.getElementById('cta-3d-btn');
+            if (!btn) return;
+
+            const getScale = () => window.innerWidth < 515 ? 1.1 : window.innerWidth < 768 ? 1.4 : 2.04;
+            const resting      = () => `rotateX(8deg) rotateY(-8deg) translateZ(30px) scale(${getScale()})`;
+            const restingShadow = '1px 1px 0 #000,2px 2px 0 #000,3px 3px 0 #000,4px 4px 0 #000,5px 5px 0 #000,6px 6px 0 #000,7px 7px 0 #000,8px 8px 0 #000,9px 9px 0 #000,10px 10px 0 #000,11px 11px 0 #000,12px 12px 0 #000,13px 13px 0 #000,14px 14px 0 #000,15px 15px 0 #000,16px 16px 0 #000,16px 16px 30px rgba(0,0,0,0.6),0 0 28px rgba(234,98,0,0.18),0 0 60px rgba(234,98,0,0.07)';
+            const hoverShadow  = '1px 1px 0 #000,2px 2px 0 #000,3px 3px 0 #000,4px 4px 0 #000,5px 5px 0 #000,6px 6px 0 #000,7px 7px 0 #000,8px 8px 12px rgba(0,0,0,0.5)';
+
+            // set initial resting state
+            btn.style.transform = resting();
+
+            btn.addEventListener('mousemove', e => {
+                const { left, top, width, height } = btn.getBoundingClientRect();
+                const x = e.clientX - left;
+                const y = e.clientY - top;
+                const rotX = ((y - height / 2) / height) * 20;
+                const rotY = ((x - width / 2) / width) * -20;
+                btn.style.transition = 'none';
+                btn.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(45px) scale(${getScale()})`;
+                btn.style.boxShadow = hoverShadow;
+            });
+
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s ease';
+                btn.style.transform = resting();
+                btn.style.boxShadow = restingShadow;
+            });
+
+            window.addEventListener('resize', () => {
+                btn.style.transform = resting();
+            });
+        })();
+    </script>
+
+    <!-- ── CURSOR TRAIL ── -->
+    <div id="trail-container" style="position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden;"></div>
+    <script>
+        (function () {
+            const container = document.getElementById('trail-container');
+
+            const ASSETS = [
+                'assets/images/2.svg',
+                'assets/images/3.svg',
+                'assets/images/4.svg',
+            ];
+
+            const particles = [];
+            let lastSpawn = 0;
+            let lastX = 0, lastY = 0;
+            const THROTTLE = 120;
+            const MIN_DIST = 25;
+            const GRAVITY = 0.025;
+
+            function handleMouseMove(e) {
+                const now = Date.now();
+                const dx = e.clientX - lastX;
+                const dy = e.clientY - lastY;
+                if (now - lastSpawn < THROTTLE) return;
+                if (Math.sqrt(dx * dx + dy * dy) < MIN_DIST) return;
+                lastSpawn = now;
+                lastX = e.clientX;
+                lastY = e.clientY;
+
+                const size = 54;
+                const src = ASSETS[Math.floor(Math.random() * ASSETS.length)];
+                const el = document.createElement('div');
+                el.style.cssText = `position:absolute;width:${size}px;height:${size}px;left:${e.clientX - size / 2}px;top:${e.clientY - size / 2}px;pointer-events:none;will-change:transform,opacity;`;
+                el.innerHTML = `<img src="${src}" style="width:100%;height:100%;display:block;" draggable="false" />`;
+                container.appendChild(el);
+
+                particles.push({
+                    el,
+                    x: e.clientX - size / 2,
+                    y: e.clientY - size / 2,
+                    vx: (Math.random() - 0.5) * 1.0,
+                    vy: -(Math.random() * 0.6 + 0.2),
+                    rotation: (Math.random() - 0.5) * 20,
+                    spin: (Math.random() - 0.5) * 1.5,
+                    opacity: 1.0,
+                });
+            }
+
+            // Fish cursor — hero only, no trail
+            const heroEl = document.getElementById('hero');
+            heroEl.addEventListener('mouseenter', () => document.body.classList.add('hero-fish-cursor'));
+            heroEl.addEventListener('mouseleave', () => document.body.classList.remove('hero-fish-cursor'));
+
+            // Trailing icons — conviction section only
+            const convictionEl = document.getElementById('conviction');
+            convictionEl.addEventListener('mousemove', handleMouseMove);
+
+            function tick() {
+                for (let i = particles.length - 1; i >= 0; i--) {
+                    const p = particles[i];
+                    p.vy += GRAVITY;
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.rotation += p.spin;
+                    p.opacity -= 0.01;
+
+                    if (p.opacity <= 0) {
+                        p.el.remove();
+                        particles.splice(i, 1);
+                        continue;
+                    }
+
+                    p.el.style.transform = `translate(${p.x - parseFloat(p.el.style.left)}px, ${p.y - parseFloat(p.el.style.top)}px) rotate(${p.rotation}deg)`;
+                    p.el.style.opacity = p.opacity;
+                }
+                requestAnimationFrame(tick);
+            }
+            tick();
+        })();
     </script>
 
 </body>
