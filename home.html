@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Baite Studio</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1/dist/lenis.min.js"></script>
+
+    <style>
+        :root {
+            --bg: #F5F5F0;
+            --bg-elevated: #FFFFFF;
+            --bg-contrast: #1A1A1A;
+            --accent: #1A1A1A;
+            --accent-2: #7A1B2D;
+            --text: #1A1A1A;
+            --text-dim: #444444;
+            --text-inverse: #F5F5F0;
+            --border: rgba(0, 0, 0, 0.08);
+            --border-glass: rgba(255, 255, 255, 0.18);
+            --glass-bg: rgba(255, 255, 255, 0.06);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+            overflow-x: hidden;
+        }
+
+        /* ── NAV ── */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 16px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: transparent;
+            border-bottom: 1px solid transparent;
+            transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease,
+                backdrop-filter 0.35s ease;
+        }
+
+        .nav::before,
+        .nav::after {
+            content: none;
+        }
+
+        .nav.scrolled {
+            background: rgba(255, 255, 255, 0.33);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.07),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+                inset 0 0 6px 3px rgba(255, 255, 255, 0.3);
+        }
+
+        .nav.scrolled::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+        }
+
+        .nav.scrolled::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.8), transparent, rgba(255, 255, 255, 0.3));
+        }
+
+        .nav-wordmark {
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: #F97316;
+            color: #fff;
+            font-family: 'Manrope', sans-serif;
+            font-weight: 600;
+            font-size: 0.875rem;
+            border: none;
+            border-radius: 60px;
+            padding: 12px 28px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+            transition: background 0.25s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent);
+        }
+
+        /* ── HERO ── */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 140px 0 0 0;
+            position: relative;
+            overflow: visible;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 32px;
+            padding: 0 24px;
+        }
+
+        .hero-headline {
+            font-size: clamp(3.25rem, 9.1vw, 6.5rem);
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            line-height: 0.88;
+            color: var(--text);
+            max-width: 75vw;
+        }
+
+        /* ── INLINE STICKER BUTTON ── */
+        .sticker-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 0.78em;
+            width: 1.6em;
+            vertical-align: middle;
+            background: #F97316;
+            border: none;
+            border-radius: 60px;
+            margin-left: 0.18em;
+            cursor: pointer;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+            transform: translateY(-0.05em);
+            transition: background 0.25s ease;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .sticker-btn:hover {
+            background: var(--accent);
+        }
+
+        .word-wrap {
+            display: inline-block;
+            overflow: hidden;
+            vertical-align: bottom;
+        }
+
+        .word-inner {
+            display: inline-block;
+            transform: translateY(105%);
+        }
+
+        .hero-sub {
+            font-size: clamp(1rem, 1.4vw, 1.15rem);
+            font-weight: 600;
+            color: var(--text-dim);
+            max-width: 44ch;
+            line-height: 1.55;
+            opacity: 0;
+            transform: translateY(16px);
+        }
+
+        .hero-cta {
+            opacity: 0;
+            transform: translateY(16px);
+            font-size: 1rem;
+            padding: 16px 44px;
+        }
+
+        /* ── GHOST ── */
+        .hero-ghost {
+            margin: 60px auto 0 auto;
+            width: 100%;
+            max-width: 640px;
+            height: 340px;
+            position: relative;
+        }
+
+        .hero-ghost canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        /* ── MARQUEE ── */
+        .marquee-section {
+            position: absolute;
+            bottom: -30px;
+            left: 0;
+            width: 100%;
+            border-top: 3px solid var(--text);
+            border-bottom: 3px solid var(--text);
+            overflow: hidden;
+            padding: 20px 0;
+            background: var(--bg);
+            z-index: 20;
+        }
+
+        .marquee-container {
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .marquee-track {
+            display: flex;
+            align-items: center;
+            width: max-content;
+            animation: marquee-scroll 28s linear infinite;
+            gap: 0;
+        }
+
+        .marquee-container:hover .marquee-track {
+            animation-play-state: paused;
+        }
+
+        .marquee-item {
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            white-space: nowrap;
+            color: var(--text);
+            padding: 0 0.6em;
+            text-transform: uppercase;
+            display: inline-block;
+            transition: color 0.2s ease;
+            cursor: default;
+        }
+
+        .marquee-item:hover {
+            color: #F97316;
+        }
+
+        .marquee-star {
+            font-size: clamp(0.9rem, 1.4vw, 1.1rem);
+            color: var(--text);
+            flex-shrink: 0;
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        @keyframes marquee-scroll {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* ── FEATURES ── */
+        .features {
+            padding: clamp(80px, 10vw, 140px) clamp(24px, 6vw, 80px);
+            background: var(--bg);
+            max-width: 80vw;
+            margin: 30px auto 0 auto;
+            position: relative;
+            z-index: 30;
+        }
+
+        .features-heading {
+            font-size: clamp(2rem, 4.5vw, 3.5rem);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 0.95;
+            color: var(--text);
+            margin-bottom: clamp(48px, 7vw, 80px);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        /* perspective wrapper so 3D tilt has depth per-card */
+        .feat-card-wrap {
+            perspective: 1000px;
+        }
+
+        .feat-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 24px;
+            padding: clamp(28px, 4vw, 44px);
+            background: rgba(255, 255, 255, 0.52);
+            backdrop-filter: blur(20px) saturate(1.8);
+            -webkit-backdrop-filter: blur(20px) saturate(1.8);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.07),
+                inset 0 2px 0 rgba(255, 255, 255, 0.9),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.2),
+                inset 0 0 12px 4px rgba(255, 255, 255, 0.45);
+            transform-style: preserve-3d;
+            transition: box-shadow 0.15s ease, transform 0.1s ease-out;
+            cursor: default;
+            --mouse-x: 50%;
+            --mouse-y: 50%;
+        }
+
+        /* dynamic glare spotlight */
+        .feat-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y),
+                    rgba(255, 255, 255, 0.13),
+                    transparent 40%);
+            z-index: 1;
+            pointer-events: none;
+            border-radius: inherit;
+        }
+
+        /* left edge glint */
+        .feat-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.8), transparent, rgba(255, 255, 255, 0.3));
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .feat-card-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .feat-card-number {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: #F97316;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .feat-card-title {
+            font-size: clamp(1.15rem, 1.8vw, 1.4rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            color: var(--text);
+            margin-bottom: 14px;
+        }
+
+        .feat-card-body {
+            font-size: clamp(0.9rem, 1.1vw, 1rem);
+            font-weight: 400;
+            color: var(--text-dim);
+            line-height: 1.55;
+        }
+
+        @media (max-width: 768px) {
+            .nav {
+                padding: 14px 20px;
+            }
+
+            .hero {
+                padding-top: 100px;
+            }
+
+            .hero-headline {
+                font-size: clamp(2.6rem, 8.5vw, 4rem);
+                max-width: 90vw;
+            }
+
+            .hero-ghost {
+                max-width: 100%;
+                height: 220px;
+                margin-top: 60px;
+            }
+
+            .marquee-section {
+                bottom: -25px;
+                padding: 16px 0;
+                border-width: 2.5px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 515px) {
+            .hero-headline {
+                font-size: clamp(2rem, 10vw, 3rem);
+            }
+
+            .marquee-section {
+                padding: 14px 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav class="nav" id="nav">
+        <a href="/" class="nav-wordmark">Baite Studio</a>
+        <a href="#community" class="btn-primary">Join Community</a>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <h1 class="hero-headline" id="hero-headline">
+                <span class="word-wrap"><span class="word-inner">TURN</span></span>
+                <span class="word-wrap"><span class="word-inner">YOUR</span></span>
+                <span class="word-wrap"><span class="word-inner">CONTENT</span></span><br>
+                <span class="word-wrap"><span class="word-inner">INTO</span></span>
+                <span class="word-wrap"><span class="word-inner">CASH</span></span><a href="#community"
+                    class="sticker-btn" aria-label="Apply Now"></a>
+            </h1>
+        </div>
+
+        <div class="hero-ghost" id="ghost-container">
+            <canvas id="ghost-canvas"></canvas>
+        </div>
+
+        <!-- SECTION 2 — MARQUEE (inside hero to overlay cat bottom) -->
+        <section class="marquee-section">
+            <div class="marquee-container">
+                <div class="marquee-track" id="marquee-track">
+                    <span class="marquee-item">Content Strategy</span><span class="marquee-star">✦</span>
+                    <span class="marquee-item">Funnel Building</span><span class="marquee-star">✦</span>
+                    <span class="marquee-item">Email Sequences</span><span class="marquee-star">✦</span>
+                    <span class="marquee-item">Community Growth</span><span class="marquee-star">✦</span>
+                    <span class="marquee-item">Monetization</span><span class="marquee-star">✦</span>
+                    <span class="marquee-item">Branding</span><span class="marquee-star">✦</span>
+                    <span class="marquee-item">Paid Ads</span><span class="marquee-star">✦</span>
+                    <span class="marquee-item">Course Creation</span><span class="marquee-star">✦</span>
+                    <!-- duplicate for seamless loop -->
+                    <span class="marquee-item">Content Strategy</span><span class="marquee-star">✦</span>
+                    <span class="marquee-item">Funnel Building</span><span class="marquee-star">✦</span>
+                    <span class="marquee-item">Email Sequences</span><span class="marquee-star">✦</span>
+                    <span class="marquee-item">Community Growth</span><span class="marquee-star">✦</span>
+                    <span class="marquee-item">Monetization</span><span class="marquee-star">✦</span>
+                    <span class="marquee-item">Branding</span><span class="marquee-star">✦</span>
+                    <span class="marquee-item">Paid Ads</span><span class="marquee-star">✦</span>
+                    <span class="marquee-item">Course Creation</span><span class="marquee-star">✦</span>
+                </div>
+            </div>
+        </section><!-- end marquee -->
+    </section><!-- end hero -->
+
+    <!-- SECTION 3 — FEATURES (swapped before Conviction) -->
+    <section class="features" id="features">
+        <h2 class="features-heading">Six things we<br>build for you.</h2>
+        <div class="features-grid">
+
+            <div class="feat-card-wrap">
+                <div class="feat-card">
+                    <div class="feat-card-content">
+                        <h3 class="feat-card-title">The Offer Engineer</h3>
+                        <p class="feat-card-body">An offer people line up to pay for, with an ascension ladder so you
+                            maximise the cashflow always.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feat-card-wrap">
+                <div class="feat-card">
+                    <div class="feat-card- content">
+                        <h3 class="feat-card-title">The Inbound Engine</h3>
+                        <p class="feat-card-body">Lead magnets, funnels, VSLs, nurture sequences, and the community that
+                            turns attention into booked calls.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feat-card-wrap">
+                <div class="feat-card">
+                    <div class="feat-card-content">
+                        <h3 class="feat-card-title">The Bot Army</h3>
+                        <p class="feat-card-body">Manychat flows and automated DMs that run your front-end while you
+                            sleep.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feat-card-wrap">
+                <div class="feat-card">
+                    <div class="feat-card-content">
+                        <h3 class="feat-card-title">The Detective Trackers</h3>
+                        <p class="feat-card-body">GA4, Meta Pixel, and full attribution so every dollar is traceable to
+                            its source.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feat-card-wrap">
+                <div class="feat-card">
+                    <div class="feat-card-content">
+                        <h3 class="feat-card-title">The AI Machine ⭐</h3>
+                        <p class="feat-card-body">Wire AI into every layer so the whole thing builds, runs, and scales
+                            itself.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feat-card-wrap">
+                <div class="feat-card">
+                    <div class="feat-card-content">
+                        <h3 class="feat-card-title">The Closing Room</h3>
+                        <p class="feat-card-body">The booking flow and call structure to convert without being weird
+                            about it.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION 4 — CONVICTION (placeholder, builds next) -->
+    <section id="conviction" style="height:60vh;display:flex;align-items:center;justify-content:center;">
+        <!-- PLACEHOLDER: Conviction section -->
+    </section>
+
+    <!-- placeholder -->
+    <section id="community" style="height:60vh;display:flex;align-items:center;justify-content:center;">
+        <!-- PLACEHOLDER: Community / next section -->
+    </section>
+
+    <script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160/examples/jsm/"
+  }
+}
+</script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+        import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+
+        /* Lenis */
+        const lenis = new Lenis({ lerp: 0.07, wheelMultiplier: 1 });
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add(time => lenis.raf(time * 1000));
+        gsap.ticker.lagSmoothing(0);
+        gsap.registerPlugin(ScrollTrigger);
+
+        /* Nav */
+        window.addEventListener('scroll', () => {
+            document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
+        }, { passive: true });
+
+        /* Headline word reveal */
+        gsap.to('.word-inner', { translateY: '0%', stagger: 0.08, duration: 0.9, delay: 0.15, ease: 'power3.out' });
+
+        /* Features stagger entrance */
+        gsap.from('.feat-card-wrap', {
+            opacity: 0,
+            y: 40,
+            stagger: 0.1,
+            duration: 0.7,
+            ease: 'power3.out',
+            scrollTrigger: {
+                trigger: '.features-grid',
+                start: 'top 80%',
+            }
+        });
+
+        gsap.from('.features-heading', {
+            opacity: 0,
+            y: 28,
+            duration: 0.7,
+            ease: 'power3.out',
+            scrollTrigger: {
+                trigger: '.features-heading',
+                start: 'top 85%',
+            }
+        });
+
+        /* Feature card 3D tilt + glare */
+        document.querySelectorAll('.feat-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const cx = rect.width / 2;
+                const cy = rect.height / 2;
+                const rotY = ((x - cx) / cx) * 8;
+                const rotX = ((y - cy) / cy) * -8;
+                card.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'rotateX(0deg) rotateY(0deg)';
+            });
+        });
+
+        /* Three.js ghost */
+        const canvas = document.getElementById('ghost-canvas');
+        const container = document.getElementById('ghost-container');
+
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+        camera.position.set(0, 0, 5);
+
+        scene.add(new THREE.AmbientLight(0xffffff, 1.4));
+        const dir = new THREE.DirectionalLight(0xffffff, 2.2);
+        dir.position.set(2, 4, 3);
+        scene.add(dir);
+        const fill = new THREE.DirectionalLight(0xfaf0f0, 0.7);
+        fill.position.set(-3, 0, 2);
+        scene.add(fill);
+
+        let ghost = null, targetRotX = 0, targetRotY = 0;
+        let mouseX = 0, mouseY = 0;
+
+        const dracoLoader = new DRACOLoader();
+        dracoLoader.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.160/examples/jsm/libs/draco/');
+
+        new GLTFLoader().setDRACOLoader(dracoLoader).load('assets/images/fluffball.glb', gltf => {
+            ghost = gltf.scene;
+            const box = new THREE.Box3().setFromObject(ghost);
+            const center = box.getCenter(new THREE.Vector3());
+            const size = box.getSize(new THREE.Vector3());
+            const scale = 4.65 / Math.max(size.x, size.y, size.z);
+            ghost.scale.setScalar(scale);
+            ghost.position.sub(center.multiplyScalar(scale));
+            ghost.position.y = -size.y * scale * 0.1;
+            scene.add(ghost);
+        }, undefined, err => console.error(err));
+
+        function resize() {
+            const w = container.clientWidth;
+            const h = container.clientHeight;
+            renderer.setSize(w, h);
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        window.addEventListener('mousemove', e => {
+            mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+            mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+        });
+
+        (function animate() {
+            requestAnimationFrame(animate);
+            if (ghost) {
+                targetRotY += (mouseX * 0.26 - targetRotY) * 0.06;
+                targetRotX += (-mouseY * 0.12 - targetRotX) * 0.06;
+                ghost.rotation.y = targetRotY;
+                ghost.rotation.x = targetRotX;
+            }
+            renderer.render(scene, camera);
+        })();
+    </script>
+
+</body>
+
+</html>

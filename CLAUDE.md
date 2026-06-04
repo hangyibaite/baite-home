@@ -135,19 +135,12 @@ Section transitions: subtle parallax (0.05–0.1 rate)
 
 
 SECTIONS (build in this order)
-Section 0 — Navbar
-
-Sticky top, transparent → white bg + backdrop-blur + border on scroll
-Left: "Baite Studio" wordmark (Manrope 700)
-Right: one button — "Join Community" → href #community
-Mobile: logo + button only
 
 Section 1 — Hero
 
 Centered, full viewport height, generous whitespace
 Massive headline → subheadline → "Apply Now" CTA button → avatar stack
 3D ghost model below avatar stack, tracks cursor
-Word-by-word headline reveal (GSAP SplitText)
 
 Section 2 — Carousel
 
