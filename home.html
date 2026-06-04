@@ -117,7 +117,7 @@
             background: #F97316;
             color: #fff;
             font-family: 'Manrope', sans-serif;
-            font-weight: 600;
+            font-weight: 800;
             font-size: 0.875rem;
             border: none;
             border-radius: 60px;
@@ -209,7 +209,7 @@
             justify-content: center;
             font-family: 'Manrope', sans-serif;
             font-size: 0.22em;
-            font-weight: 700;
+            font-weight: 800;
             letter-spacing: -0.01em;
             color: #ffffff;
             white-space: nowrap;
@@ -438,19 +438,10 @@
             z-index: 2;
         }
 
-        .feat-card-number {
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            color: #F97316;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-
         .feat-card-title {
             font-size: clamp(2rem, 3.2vw, 2.75rem);
             font-weight: 800;
-            letter-spacing: -0.09em;
+            letter-spacing: -0.03em;
             line-height: 1.1;
             color: #ffffff;
             margin-bottom: 14px;
@@ -459,8 +450,64 @@
         .feat-card-body {
             font-size: clamp(1.3rem, 1.6vw, 1.45rem);
             font-weight: 400;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.6);
             line-height: 1.55;
+        }
+
+        /* ── CONVICTION ── */
+        .conviction {
+            background: var(--bg);
+            padding: clamp(80px, 12vw, 160px) clamp(24px, 6vw, 80px);
+            display: flex;
+            justify-content: center;
+        }
+
+        .conviction-inner {
+            max-width: 680px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 2em;
+        }
+
+        .magic-text {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.28em 0;
+            line-height: 1;
+        }
+
+        .magic-word {
+            position: relative;
+            font-size: clamp(1.375rem, 2.1vw, 1.65rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.5;
+            margin-right: 0.28em;
+        }
+
+        .magic-word__ghost {
+            opacity: 0.15;
+            color: var(--text);
+        }
+
+        .magic-word__active {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            color: var(--text);
+        }
+
+        .conviction-cta {
+            margin-top: 1.5em;
+            display: flex;
+            justify-content: center;
+        }
+
+        .conviction-cta .btn-primary {
+            font-weight: 500;
+            font-size: clamp(1.5rem, 1.8vw, 1.625rem);
         }
 
         @media (max-width: 768px) {
@@ -493,8 +540,13 @@
                 border-bottom-width: 2.5px;
             }
 
-            .features-grid { grid-template-columns: 1fr; }
-            .features-inner { max-width: 92vw; }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features-inner {
+                max-width: 92vw;
+            }
         }
 
         @media (max-width: 515px) {
@@ -515,7 +567,8 @@
         <defs>
             <filter id="text-distort-filter">
                 <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" result="noise" />
-                <feDisplacementMap in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G" id="displacement-map" />
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G"
+                    id="displacement-map" />
             </filter>
         </defs>
     </svg>
@@ -523,7 +576,7 @@
     <!-- NAV -->
     <nav class="nav" id="nav">
         <a href="/" class="nav-wordmark">Baite Studio</a>
-        <a href="#community" class="btn-primary">Join Community</a>
+        <a href="#community" class="btn-primary">Apply Now</a>
     </nav>
 
     <!-- HERO -->
@@ -534,8 +587,9 @@
                 <span class="word-wrap"><span class="word-inner">YOUR</span></span>
                 <span class="word-wrap"><span class="word-inner">CONTENT</span></span><br>
                 <span class="word-wrap"><span class="word-inner">INTO</span></span>
-                <span class="word-wrap"><span class="word-inner">CASH</span></span><span class="word-wrap sticker-wrap"><span class="word-inner"><a href="#community"
-                    class="sticker-btn" aria-label="Apply Now"><span class="sticker-label">Apply&nbsp;→</span></a></span></span>
+                <span class="word-wrap"><span class="word-inner">CASH</span></span><span
+                    class="word-wrap sticker-wrap"><span class="word-inner"><a href="#community" class="sticker-btn"
+                            aria-label="Apply Now"><span class="sticker-label">Apply&nbsp;→</span></a></span></span>
             </h1>
         </div>
 
@@ -571,78 +625,99 @@
 
     <!-- SECTION 3 — FEATURES (swapped before Conviction) -->
     <section class="features" id="features">
-        <canvas id="grid-distortion-canvas" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;"></canvas>
+        <canvas id="grid-distortion-canvas"
+            style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;"></canvas>
         <div class="features-inner">
-        <h2 class="features-heading">Built to print clients.</h2>
-        <div class="features-grid">
+            <h2 class="features-heading">Built to print clients.</h2>
+            <div class="features-grid">
 
-            <div class="feat-card-wrap">
-                <div class="feat-card">
-                    <div class="feat-card-content">
-                        <h3 class="feat-card-title">The Offer Engineer</h3>
-                        <p class="feat-card-body">An offer people line up to pay for, with an ascension ladder so you
-                            maximise the cashflow always.</p>
+                <div class="feat-card-wrap">
+                    <div class="feat-card">
+                        <div class="feat-card-content">
+                            <h3 class="feat-card-title">The Offer Engineer</h3>
+                            <p class="feat-card-body">An offer people line up to pay for, with an ascension ladder so
+                                you
+                                maximise the cashflow always.</p>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="feat-card-wrap">
-                <div class="feat-card">
-                    <div class="feat-card-content">
-                        <h3 class="feat-card-title">The Inbound Engine</h3>
-                        <p class="feat-card-body">Lead magnets, funnels, VSLs, nurture sequences, and the community that
-                            turns attention into booked calls.</p>
+                <div class="feat-card-wrap">
+                    <div class="feat-card">
+                        <div class="feat-card-content">
+                            <h3 class="feat-card-title">The Inbound Engine</h3>
+                            <p class="feat-card-body">Lead magnets, funnels, VSLs, nurture sequences, and the community
+                                that
+                                turns attention into booked calls.</p>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="feat-card-wrap">
-                <div class="feat-card">
-                    <div class="feat-card-content">
-                        <h3 class="feat-card-title">The Bot Army</h3>
-                        <p class="feat-card-body">Manychat flows and automated DMs that run your front-end while you
-                            sleep.</p>
+                <div class="feat-card-wrap">
+                    <div class="feat-card">
+                        <div class="feat-card-content">
+                            <h3 class="feat-card-title">The Bot Army</h3>
+                            <p class="feat-card-body">Manychat flows and automated DMs that run your front-end while you
+                                sleep.</p>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="feat-card-wrap">
-                <div class="feat-card">
-                    <div class="feat-card-content">
-                        <h3 class="feat-card-title">The Detective Trackers</h3>
-                        <p class="feat-card-body">GA4, Meta Pixel, and full attribution so every dollar is traceable to
-                            its source.</p>
+                <div class="feat-card-wrap">
+                    <div class="feat-card">
+                        <div class="feat-card-content">
+                            <h3 class="feat-card-title">The Detective Trackers</h3>
+                            <p class="feat-card-body">GA4, Meta Pixel, and full attribution so every dollar is traceable
+                                to
+                                its source.</p>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="feat-card-wrap">
-                <div class="feat-card">
-                    <div class="feat-card-content">
-                        <h3 class="feat-card-title">The AI Machine ⭐</h3>
-                        <p class="feat-card-body">Wire AI into every layer so the whole thing builds, runs, and scales
-                            itself.</p>
+                <div class="feat-card-wrap">
+                    <div class="feat-card">
+                        <div class="feat-card-content">
+                            <h3 class="feat-card-title">The AI Machine ⭐</h3>
+                            <p class="feat-card-body">Wire AI into every layer so the whole thing builds, runs, and
+                                scales
+                                itself.</p>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="feat-card-wrap">
-                <div class="feat-card">
-                    <div class="feat-card-content">
-                        <h3 class="feat-card-title">The Closing Room</h3>
-                        <p class="feat-card-body">The booking flow and call structure to convert without being weird
-                            about it.</p>
+                <div class="feat-card-wrap">
+                    <div class="feat-card">
+                        <div class="feat-card-content">
+                            <h3 class="feat-card-title">The Closing Room</h3>
+                            <p class="feat-card-body">The booking flow and call structure to convert without being weird
+                                about it.</p>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-        </div>
+            </div>
         </div><!-- end features-inner -->
     </section>
 
-    <!-- SECTION 4 — CONVICTION (placeholder, builds next) -->
-    <section id="conviction" style="height:60vh;display:flex;align-items:center;justify-content:center;">
-        <!-- PLACEHOLDER: Conviction section -->
+    <!-- SECTION 3 — CONVICTION -->
+    <section class="conviction" id="conviction">
+        <div class="conviction-inner">
+            <p class="magic-text" data-magic-text>You ever notice how your comments sound like love letters? "This
+                changed my life." "OMG I love you… please never stop." "You're so underrated." And yet, somehow, despite
+                all that spicy love, the people writing those comments are not exactly rushing to send you money.</p>
+            <p class="magic-text" data-magic-text>Which is wild because honestly, they want to. They're dying to see you
+                succeed. They just don't have a clear path from "I love this guy sm" to "here's my credit card," and so
+                most of them watch your stuff for free forever and feel amazing about it. Bloody freeloaders (cough).
+            </p>
+            <p class="magic-text" data-magic-text>Not your fault, but... kinda your problem, ngl.</p>
+            <p class="magic-text" data-magic-text>The thing is, it's not your content. (that shit's great, btw) It's
+                just about everything that happens after the view, which is where you actually turn these followers into
+                money. That just isn't there yet. And if you want to finally start printing cash from your content… you
+                already know what to do. Hit the DAMN button👇</p>
+            <div class="conviction-cta">
+                <a href="#community" class="btn-primary">Apply Now</a>
+            </div>
+        </div>
     </section>
 
     <!-- placeholder -->
@@ -702,6 +777,43 @@
                 start: 'top 85%',
             }
         });
+
+        /* ── CONVICTION: magic-text scroll reveal (sequential across all paragraphs) ── */
+        (function () {
+            const containers = [...document.querySelectorAll('[data-magic-text]')];
+
+            // Split each paragraph into word spans
+            containers.forEach(container => {
+                const words = container.textContent.trim().split(/\s+/);
+                container.innerHTML = '';
+                words.forEach(word => {
+                    const span = document.createElement('span');
+                    span.className = 'magic-word';
+                    span.innerHTML = `<span class="magic-word__ghost">${word}</span><span class="magic-word__active">${word}</span>`;
+                    container.appendChild(span);
+                });
+            });
+
+            // Collect all active spans in DOM order across every paragraph
+            const allSpans = [...document.querySelectorAll('.conviction [data-magic-text] .magic-word__active')];
+            const total = allSpans.length;
+
+            // One shared ScrollTrigger on the whole conviction section
+            ScrollTrigger.create({
+                trigger: '.conviction',
+                start: 'top 75%',
+                end: 'center 5%',
+                scrub: 0.2,
+                onUpdate(self) {
+                    allSpans.forEach((span, i) => {
+                        const start = i / total;
+                        const end = (i + 1) / total;
+                        span.style.opacity = gsap.utils.clamp(0, 1,
+                            gsap.utils.mapRange(start, end, 0, 1, self.progress));
+                    });
+                }
+            });
+        })();
 
         /* Feature card 3D tilt + glare */
         document.querySelectorAll('.feat-card').forEach(card => {
@@ -766,6 +878,7 @@
             renderer.setSize(w, h);
             camera.aspect = w / h;
             camera.updateProjectionMatrix();
+            // no position override — GSAP owns ghost.position.y
         }
         resize();
         window.addEventListener('resize', resize);
