@@ -162,19 +162,22 @@
 
         /* Nav + Conviction: black base, black slide layer */
         .nav .btn-primary,
-        .conviction-cta .btn-primary {
+        .conviction-cta .btn-primary,
+        .modal-submit {
             background: #1A1A1A;
             color: #fff;
             border: 3px solid #000;
         }
 
         .nav .btn-primary::before,
-        .conviction-cta .btn-primary::before {
+        .conviction-cta .btn-primary::before,
+        .modal-submit::before {
             background: #F97316;
         }
 
         .nav .btn-primary:hover,
-        .conviction-cta .btn-primary:hover {
+        .conviction-cta .btn-primary:hover,
+        .modal-submit:hover {
             color: #fff;
         }
 
@@ -891,6 +894,104 @@
             background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%);
             pointer-events: none;
         }
+
+        /* ── MODAL ── */
+        #modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+        #modal-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .modal-box {
+            background: #f5f2ee;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 20px;
+            padding: 40px 36px;
+            max-width: 440px;
+            width: 100%;
+            position: relative;
+            transform: translateY(16px);
+            transition: transform 0.25s ease;
+        }
+        #modal-overlay.open .modal-box {
+            transform: translateY(0);
+        }
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #6b6864;
+            font-size: 1.4rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: 4px;
+            transition: color 0.15s;
+        }
+        .modal-close:hover { color: #1a1a1a; }
+        .modal-heading {
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+        }
+        .modal-sub {
+            font-size: 0.95rem;
+            color: #6b6864;
+            margin-bottom: 28px;
+            line-height: 1.45;
+        }
+        .modal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .modal-input {
+            background: #ffffff;
+            border: 1px solid #e0ddd9;
+            border-radius: 12px;
+            color: #1a1a1a;
+            font-size: 0.95rem;
+            padding: 14px 16px;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            width: 100%;
+            font-family: 'Manrope', sans-serif;
+        }
+        .modal-input::placeholder { color: #9a9896; }
+        .modal-input:focus {
+            border-color: #FF6B2C;
+            box-shadow: 0 0 0 3px rgba(255, 107, 44, 0.15);
+        }
+        .modal-input.input-error {
+            border-color: #ef4444;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+            animation: shake 0.35s ease;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-6px); }
+            40% { transform: translateX(6px); }
+            60% { transform: translateX(-4px); }
+            80% { transform: translateX(4px); }
+        }
+        .modal-submit { width: 100%; margin-top: 4px; }
     </style>
 </head>
 
@@ -909,7 +1010,7 @@
     <!-- NAV -->
     <nav class="nav" id="nav">
         <a href="/" class="nav-wordmark">Baite Studio</a>
-        <a href="#community" class="btn-primary">Apply Now</a>
+        <a href="#community" class="btn-primary cta-btn">Apply Now</a>
     </nav>
 
     <!-- HERO -->
@@ -931,7 +1032,7 @@
                 <span class="word-wrap"><span class="word-inner">CONTENT</span></span><br>
                 <span class="word-wrap"><span class="word-inner">INTO</span></span>
                 <span class="word-wrap"><span class="word-inner">CASH</span></span><span
-                    class="word-wrap sticker-wrap"><span class="word-inner"><a href="#community" class="sticker-btn"
+                    class="word-wrap sticker-wrap"><span class="word-inner"><a href="#community" class="sticker-btn cta-btn"
                             aria-label="Apply Now"><span class="sticker-label">Apply&nbsp;→</span></a></span></span>
             </h1>
         </div>
@@ -1058,7 +1159,7 @@
                 money. That just isn't there yet. And if you want to finally start printing cash from your content… you
                 already know what to do. Hit the DAMN button👇</p>
             <div class="conviction-cta">
-                <a href="#community" class="btn-primary">Apply Now</a>
+                <a href="#community" class="btn-primary cta-btn">Apply Now</a>
             </div>
         </div>
     </section>
@@ -1198,7 +1299,7 @@
 
             <!-- 3D tilt button -->
             <div class="cta-btn-perspective">
-                <a href="#community" class="cta-3d-btn" id="cta-3d-btn">
+                <a href="#community" class="cta-3d-btn cta-btn" id="cta-3d-btn">
                     <span class="cta-3d-btn-gloss"></span>
                     <span class="cta-3d-btn-text">Hit the damn button</span>
                 </a>
@@ -1623,6 +1724,100 @@
                 requestAnimationFrame(tick);
             }
             tick();
+        })();
+    </script>
+
+
+    <div id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-box">
+            <button class="modal-close" id="close-modal" aria-label="Close">×</button>
+            <h2 class="modal-heading" id="modal-title">Apply now before the waitlist closes.</h2>
+            <p class="modal-sub">Drop your details below. We'll send you an instant access link that you can leave
+                sitting unread in your inbox for the next three to five business days.🎉🎉</p>
+            <form class="modal-form" id="signup-form" novalidate>
+                <input class="modal-input" type="text" id="modal-name" name="name" placeholder="Your name" required />
+                <input class="modal-input" type="email" id="modal-email" name="email" placeholder="Your email" required />
+                <button type="submit" class="cta-btn modal-submit btn-primary">Apply Now</button>
+                <p class="form-error" id="form-error" style="display:none;color:#ef4444;font-size:0.85rem;text-align:center;margin-top:8px;">Something went wrong. Please try again.</p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            const overlay = document.getElementById('modal-overlay');
+            const closeBtn = document.getElementById('close-modal');
+            const form = document.getElementById('signup-form');
+
+            function openModal() {
+                const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+                document.body.style.paddingRight = scrollbarWidth + 'px';
+                document.body.style.overflow = 'hidden';
+                overlay.classList.add('open');
+            }
+            function closeModal() {
+                overlay.classList.remove('open');
+                document.body.style.overflow = '';
+                document.body.style.paddingRight = '';
+            }
+            window.openModal = openModal;
+
+            closeBtn.addEventListener('click', closeModal);
+            overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+            document.querySelectorAll('.cta-btn:not(.modal-submit)').forEach(btn => {
+                btn.addEventListener('click', e => { e.preventDefault(); openModal(); });
+            });
+
+            form.addEventListener('submit', async e => {
+                e.preventDefault();
+                const nameEl = document.getElementById('modal-name');
+                const emailEl = document.getElementById('modal-email');
+                const submitBtn = form.querySelector('.modal-submit');
+                const name = nameEl.value.trim();
+                const email = emailEl.value.trim();
+
+                let valid = true;
+                [nameEl, emailEl].forEach(el => el.classList.remove('input-error'));
+
+                if (!name) {
+                    nameEl.classList.add('input-error');
+                    nameEl.addEventListener('animationend', () => nameEl.classList.remove('input-error'), { once: true });
+                    valid = false;
+                }
+                if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    emailEl.classList.add('input-error');
+                    emailEl.addEventListener('animationend', () => emailEl.classList.remove('input-error'), { once: true });
+                    valid = false;
+                }
+                if (!valid) return;
+
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'Sending...';
+                submitBtn.disabled = true;
+
+                try {
+                    const res = await fetch('https://api.convertkit.com/v3/forms/9525801/subscribe', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            api_key: 'DU-ryFa8xDbaGVfW35liKQ',
+                            first_name: name,
+                            email: email
+                        })
+                    });
+
+                    if (!res.ok) throw new Error('Network response was not ok');
+
+                    window.location.href = 'https://instagram.com/andyandhangyi';
+                } catch (err) {
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                    const errorEl = document.getElementById('form-error');
+                    errorEl.style.display = 'block';
+                }
+            });
         })();
     </script>
 
