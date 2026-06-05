@@ -1750,15 +1750,10 @@
             const form = document.getElementById('signup-form');
 
             function openModal() {
-                const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-                document.body.style.paddingRight = scrollbarWidth + 'px';
-                document.body.style.overflow = 'hidden';
                 overlay.classList.add('open');
             }
             function closeModal() {
                 overlay.classList.remove('open');
-                document.body.style.overflow = '';
-                document.body.style.paddingRight = '';
             }
             window.openModal = openModal;
 
