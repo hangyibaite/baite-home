@@ -181,6 +181,24 @@
             color: #fff;
         }
 
+        /* Nav Apply Now — hidden until hero scrolls out */
+        #open-modal-nav {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        #open-modal-nav.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        @media (max-width: 768px) {
+            #open-modal-nav {
+                font-size: 0.75rem;
+                padding: 10px 18px;
+            }
+        }
+
         /* ── SOCIAL PROOF PILL ── */
         .social-proof-pill {
             display: inline-flex;
@@ -1010,7 +1028,7 @@
     <!-- NAV -->
     <nav class="nav" id="nav">
         <a href="/" class="nav-wordmark">Baite Studio</a>
-        <a href="#community" class="btn-primary cta-btn">Apply Now</a>
+        <a href="#community" class="btn-primary cta-btn" id="open-modal-nav">Apply Now</a>
     </nav>
 
     <!-- HERO -->
@@ -1649,6 +1667,7 @@
     <!-- ── CURSOR TRAIL ── -->
     <div id="trail-container" style="position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden;"></div>
     <script>
+    if (window.matchMedia('(pointer: fine)').matches) {
         (function () {
             const container = document.getElementById('trail-container');
 
@@ -1725,6 +1744,21 @@
             }
             tick();
         })();
+    } // end pointer: fine
+
+    // Nav button — reveal after hero scrolls out
+    const navBtn = document.getElementById('open-modal-nav');
+    const hero = document.getElementById('hero');
+    const heroObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) {
+                navBtn.classList.add('visible');
+            } else {
+                navBtn.classList.remove('visible');
+            }
+        });
+    }, { threshold: 0 });
+    heroObserver.observe(hero);
     </script>
 
 
