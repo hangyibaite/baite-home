@@ -7,7 +7,7 @@
     <title>Skill Acquired — Baite Studio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
         rel="stylesheet" />
     <style>
         *,
@@ -19,7 +19,7 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Manrope', sans-serif;
             background: #f1efe1;
             color: #1a1a1a;
             min-height: 100vh;
@@ -119,7 +119,7 @@
             gap: 10px;
             padding: 28px 48px;
             border-radius: 60px;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Manrope', sans-serif;
             font-weight: 700;
             font-size: 1.87rem;
             color: #fff;
@@ -195,6 +195,34 @@
             text-align: center;
         }
 
+        .while-here {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 28px;
+            animation-delay: 0.35s;
+        }
+
+        .while-here-text {
+            font-size: 1.4rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            color: #1a1a1a;
+        }
+
+        .while-here-arrow {
+            font-size: 2rem;
+            line-height: 1;
+            color: #1a1a1a;
+            animation: bounce-arrow 1.4s ease-in-out infinite;
+        }
+
+        @keyframes bounce-arrow {
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(6px); }
+        }
+
         @media (max-width: 768px) {
             .container {
                 max-width: 92vw;
@@ -211,6 +239,192 @@
                 max-width: 92vw;
             }
         }
+
+        /* ── MODAL ── */
+        #modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        #modal-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-box {
+            background: #f5f2ee;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 20px;
+            padding: 40px 36px;
+            max-width: 440px;
+            width: 100%;
+            position: relative;
+            transform: translateY(16px);
+            transition: transform 0.25s ease;
+        }
+
+        #modal-overlay.open .modal-box {
+            transform: translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #6b6864;
+            font-size: 1.4rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: 4px;
+            transition: color 0.15s;
+        }
+
+        .modal-close:hover { color: #1a1a1a; }
+
+        .modal-heading {
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+        }
+
+        .modal-sub {
+            font-size: 0.95rem;
+            color: #6b6864;
+            margin-bottom: 28px;
+            line-height: 1.45;
+        }
+
+        .modal-progress-wrap {
+            margin-bottom: 20px;
+        }
+
+        .modal-progress-label {
+            font-size: 0.8rem;
+            color: #444444;
+            margin-bottom: 8px;
+        }
+
+        .modal-progress-track {
+            width: 100%;
+            height: 9px;
+            background: rgba(0, 0, 0, 0.06);
+            border-radius: 99px;
+            border: 1px solid rgba(249, 115, 22, 0.35);
+            overflow: hidden;
+        }
+
+        .modal-progress-fill {
+            height: 100%;
+            background: #F97316;
+            box-shadow: 0 0 14px rgba(249, 115, 22, 0.5);
+            border-radius: 99px;
+            width: 0%;
+            transition: width 0.35s ease;
+        }
+
+        .modal-q-heading {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+        }
+
+        .modal-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .modal-option {
+            width: 100%;
+            text-align: left;
+            padding: 14px 18px;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.10);
+            color: #1a1a1a;
+            font-family: 'Manrope', sans-serif;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: border-color 0.15s, background 0.15s;
+        }
+
+        .modal-option:hover {
+            border-color: #F97316;
+            background: rgba(249, 115, 22, 0.06);
+        }
+
+        .modal-option.selected {
+            background: #F97316;
+            color: #fff;
+            border-color: #F97316;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%  { transform: translateX(-6px); }
+            40%  { transform: translateX(6px); }
+            60%  { transform: translateX(-4px); }
+            80%  { transform: translateX(4px); }
+        }
+
+        .modal-option.option-error {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.08);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+            animation: shake 0.35s ease;
+        }
+
+        .modal-intro-btn {
+            position: relative;
+            overflow: hidden;
+            background: #1a1a1a;
+            color: #fff;
+            font-family: 'Manrope', sans-serif;
+            font-weight: 800;
+            font-size: 0.95rem;
+            border: 3px solid #000;
+            border-radius: 60px;
+            padding: 15px 28px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 4px;
+            z-index: 0;
+        }
+
+        .modal-intro-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: #F97316;
+            border-radius: 60px;
+            transition: left 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: -1;
+        }
+
+        .modal-intro-btn:hover::before { left: 0; }
+        .modal-intro-btn:hover { color: #fff; }
     </style>
 </head>
 
@@ -223,6 +437,11 @@
             target="_blank" rel="noopener noreferrer">
             <span>Claim My New Skill</span>
         </a>
+
+        <div class="while-here fade-up">
+            <p class="while-here-text">while you're here...</p>
+            <div class="while-here-arrow">↓</div>
+        </div>
 
         <div class="upgrade-block fade-up">
             <h2 class="ub-main-heading">Join The Content-to-Cashflow™ Academy For Free</h2>
@@ -247,35 +466,221 @@
         </div>
     </div>
 
+    <!-- MODAL -->
+    <div id="modal-overlay" role="dialog" aria-modal="true">
+        <div class="modal-box">
+            <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+
+            <!-- Progress bar -->
+            <div class="modal-progress-wrap" id="modal-progress-wrap" style="display:none;">
+                <p class="modal-progress-label" id="modal-progress-label">Question 1 of 5</p>
+                <div class="modal-progress-track">
+                    <div class="modal-progress-fill" id="modal-progress-fill"></div>
+                </div>
+            </div>
+
+            <!-- Interstitial -->
+            <div id="modal-step-intro">
+                <h2 class="modal-heading">Halthe, traveler! 🧙</h2>
+                <p class="modal-sub">Our automated gatekeeper needs you to answer 5 quick questions before you can join the waitlist. Don't worry — they're all MCQs.</p>
+                <button type="button" class="modal-intro-btn" id="modal-intro-btn">Let's go →</button>
+            </div>
+
+            <!-- Questions -->
+            <div id="modal-step-q" style="display:none;">
+                <h2 class="modal-q-heading" id="modal-q-text"></h2>
+                <div class="modal-options" id="modal-options"></div>
+                <p id="modal-status" style="display:none;margin-top:14px;font-size:0.85rem;color:#6b6864;text-align:center;">Registering...</p>
+            </div>
+        </div>
+    </div>
+
     <script>
         (function () {
             const params = new URLSearchParams(window.location.search);
             const name = params.get('name') || '';
             const email = params.get('email') || '';
 
-            document.getElementById('upgrade-btn').addEventListener('click', async function () {
-                const btn = this;
-                btn.querySelector('span').textContent = 'Claiming your spot...';
-                btn.disabled = true;
+            const CK_API_KEY = 'DU-ryFa8xDbaGVfW35liKQ';
+            const CK_FORM_ID = '9525801';
 
+            function subscribeToMainList() {
+                if (!email) return;
+                fetch(`https://api.convertkit.com/v3/forms/${CK_FORM_ID}/subscribe`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ api_key: CK_API_KEY, form_id: CK_FORM_ID, first_name: name, email: email, tags: [20196806] })
+                }).catch(err => console.error('ConvertKit error:', err));
+            }
+
+            document.querySelector('.claim-btn').addEventListener('click', () => {
+                subscribeToMainList();
+            });
+
+            /* ── MODAL MULTI-STEP ── */
+            const TAG_IDS = {
+                'q1-posting-no-traction':  20107031,
+                'q1-views-no-money':       20107035,
+                'q1-audience-no-offer':    20107036,
+                'q1-starting-from-zero':   20107037,
+                'q2-first-client-60-days': 20107040,
+                'q2-leads-on-autopilot':   20107041,
+                'q2-scale-to-10-30k':      20107043,
+                'q2-scale-to-30k-plus':    20107042,
+                'q3-winging-strategy':     20107044,
+                'q3-courses-no-results':   20107045,
+                'q3-tried-outreach':       20107046,
+                'q3-starting-from-zero':   20107047,
+                'q4-build-with-me':        20107048,
+                'q4-build-for-me':         20107049,
+                'q4-tools-and-templates':  20107051,
+                'q4-full-package':         20107052,
+                'q5-pinky-promise-yes':    20107053,
+            };
+
+            const QUESTIONS = [
+                {
+                    text: 'Where are you right now?',
+                    options: [
+                        { label: 'Posting but getting zero traction',       tag: 'q1-posting-no-traction' },
+                        { label: 'Getting views but making no money',        tag: 'q1-views-no-money' },
+                        { label: 'Have an audience, no monetization system', tag: 'q1-audience-no-offer' },
+                        { label: "Monetised and scaling",                   tag: 'q1-starting-from-zero' },
+                    ]
+                },
+                {
+                    text: 'What does winning look like for you in the next 90 days?',
+                    options: [
+                        { label: 'Land my first paying client',  tag: 'q2-first-client-60-days' },
+                        { label: 'Leads coming in on autopilot', tag: 'q2-leads-on-autopilot' },
+                        { label: 'Scale to 10–30k/mo',           tag: 'q2-scale-to-10-30k' },
+                        { label: 'Scale to >30k/mo',             tag: 'q2-scale-to-30k-plus' },
+                    ]
+                },
+                {
+                    text: 'What have you already tried?',
+                    options: [
+                        { label: "Honestly, just wingin' it",           tag: 'q3-winging-strategy' },
+                        { label: 'Bought courses, got zero results',     tag: 'q3-courses-no-results' },
+                        { label: 'DMs and outreach, felt too spammy',    tag: 'q3-tried-outreach' },
+                        { label: 'Nothing yet, starting from zero',      tag: 'q3-starting-from-zero' },
+                    ]
+                },
+                {
+                    text: 'What kind of support do you need most right now?',
+                    options: [
+                        { label: 'Build it with me',             tag: 'q4-build-with-me' },
+                        { label: 'Build it all for me',          tag: 'q4-build-for-me' },
+                        { label: 'Just tools and templates',     tag: 'q4-tools-and-templates' },
+                        { label: 'The whole package, all of it', tag: 'q4-full-package' },
+                    ]
+                },
+                {
+                    text: "Do you pinky promise to actually show up and use what's inside?",
+                    options: [
+                        { label: "Yes, I'm ready to commit ✊", tag: 'q5-pinky-promise-yes' },
+                        { label: 'No, I hoard free things 😅',  tag: 'q5-pinky-promise-no' },
+                    ]
+                },
+            ];
+
+            let selectedTags = {};
+
+            const overlay      = document.getElementById('modal-overlay');
+            const closeBtn     = document.getElementById('modal-close');
+            const stepIntro    = document.getElementById('modal-step-intro');
+            const stepQ        = document.getElementById('modal-step-q');
+            const progressWrap = document.getElementById('modal-progress-wrap');
+            const progressFill = document.getElementById('modal-progress-fill');
+            const progressLbl  = document.getElementById('modal-progress-label');
+            const qText        = document.getElementById('modal-q-text');
+            const optionsEl    = document.getElementById('modal-options');
+
+            function openModal() {
+                selectedTags = {};
+                showIntro();
+                overlay.classList.add('open');
+            }
+
+            function closeModal() {
+                overlay.classList.remove('open');
+            }
+
+            function showIntro() {
+                stepIntro.style.display = '';
+                stepQ.style.display = 'none';
+                progressWrap.style.display = 'none';
+            }
+
+            function showQuestion(step) {
+                stepIntro.style.display = 'none';
+                stepQ.style.display = '';
+                progressWrap.style.display = '';
+                progressFill.style.width = (step * 20) + '%';
+                progressLbl.textContent = `Question ${step} of 5`;
+                const q = QUESTIONS[step - 1];
+                qText.textContent = q.text;
+                optionsEl.innerHTML = '';
+                q.options.forEach(opt => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'modal-option';
+                    btn.textContent = opt.label;
+                    btn.addEventListener('click', () => selectOption(btn, opt.tag, step));
+                    optionsEl.appendChild(btn);
+                });
+            }
+
+            function selectOption(btn, tag, step) {
+                if (tag === 'q5-pinky-promise-no') {
+                    btn.style.animation = 'none';
+                    btn.offsetHeight; // force reflow so animation re-triggers
+                    btn.style.animation = '';
+                    btn.classList.add('option-error');
+                    btn.addEventListener('animationend', () => btn.classList.remove('option-error'), { once: true });
+                    return;
+                }
+                optionsEl.querySelectorAll('.modal-option').forEach(b => b.disabled = true);
+                btn.classList.add('selected');
+                selectedTags['q' + step] = tag;
+                setTimeout(() => {
+                    if (step < 5) {
+                        showQuestion(step + 1);
+                    } else {
+                        document.getElementById('modal-status').style.display = '';
+                        fireTagsAndRedirect();
+                    }
+                }, 225);
+            }
+
+            async function fireTagsAndRedirect() {
+                const questionTagIds = Object.values(selectedTags)
+                    .map(tag => TAG_IDS[tag])
+                    .filter(id => id != null);
                 try {
-                    await fetch('https://api.convertkit.com/v3/forms/9525801/subscribe', {
+                    await fetch(`https://api.convertkit.com/v3/forms/${CK_FORM_ID}/subscribe`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            api_key: 'DU-ryFa8xDbaGVfW35liKQ',
-                            form_id: '9525801',
+                            api_key: CK_API_KEY,
+                            form_id: CK_FORM_ID,
                             first_name: name,
                             email: email,
-                            tags: [20196806]
+                            tags: [20196806, ...questionTagIds]
                         })
                     });
                 } catch (err) {
                     console.error('ConvertKit error:', err);
                 }
-
                 window.location.href = 'thank-you.html';
-            });
+            }
+
+            document.getElementById('modal-intro-btn').addEventListener('click', () => showQuestion(1));
+            closeBtn.addEventListener('click', closeModal);
+            overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+            document.getElementById('upgrade-btn').addEventListener('click', openModal);
         })();
     </script>
 </body>

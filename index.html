@@ -1083,6 +1083,13 @@
             border-color: #F97316;
         }
 
+        .modal-option.option-error {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.08);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+            animation: shake 0.35s ease;
+        }
+
         /* ── LEAD MAGNET SECTION ── */
         .lead-magnet {
             background: var(--bg);
@@ -1972,6 +1979,7 @@
             <div class="modal-step" id="modal-step-q" style="display:none;">
                 <h2 class="modal-q-heading" id="modal-q-text"></h2>
                 <div class="modal-options" id="modal-options"></div>
+                <p id="modal-status" style="display:none;margin-top:14px;font-size:0.85rem;color:#6b6864;text-align:center;">Registering...</p>
             </div>
         </div>
     </div>
@@ -1999,7 +2007,6 @@
             'q4-tools-and-templates':  20107051,
             'q4-full-package':         20107052,
             'q5-pinky-promise-yes':    20107053,
-            'q5-pinky-promise-no':     20107057,
         };
 
         const QUESTIONS = [
@@ -2009,7 +2016,7 @@
                     { label: 'Posting but getting zero traction',      tag: 'q1-posting-no-traction' },
                     { label: 'Getting views but making no money',       tag: 'q1-views-no-money' },
                     { label: 'Have an audience, no monetization system',tag: 'q1-audience-no-offer' },
-                    { label: "Haven't started posting yet",             tag: 'q1-starting-from-zero' },
+                    { label: "Monetised and scaling",                   tag: 'q1-starting-from-zero' },
                 ]
             },
             {
@@ -2096,6 +2103,14 @@
         }
 
         function selectOption(btn, tag, step) {
+            if (tag === 'q5-pinky-promise-no') {
+                btn.style.animation = 'none';
+                btn.offsetHeight; // force reflow so animation re-triggers
+                btn.style.animation = '';
+                btn.classList.add('option-error');
+                btn.addEventListener('animationend', () => btn.classList.remove('option-error'), { once: true });
+                return;
+            }
             optionsEl.querySelectorAll('.modal-option').forEach(b => b.disabled = true);
             btn.classList.add('selected');
             selectedTags['q' + step] = tag;
@@ -2103,6 +2118,7 @@
                 if (step < 5) {
                     showStep(step + 1);
                 } else {
+                    document.getElementById('modal-status').style.display = '';
                     fireTagsAndRedirect();
                 }
             }, 225);
