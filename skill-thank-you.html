@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skill Acquired — Baite Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f1efe1;
+            color: #1a1a1a;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 24px;
+        }
+
+        .container {
+            max-width: 70vw;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            align-items: center;
+            text-align: center;
+        }
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.65s ease forwards;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .heading {
+            font-size: clamp(2.8rem, 7vw, 5rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 0.9;
+            color: #1a1a1a;
+            margin-bottom: 32px;
+            animation-delay: 0.1s;
+        }
+
+        /* ── UPGRADE BLOCK ── */
+        .upgrade-block {
+            background: #fff;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 24px;
+            padding: 48px 52px;
+            max-width: 60vw;
+            width: 100%;
+            text-align: left;
+            margin-bottom: 0;
+            animation-delay: 0.3s;
+        }
+
+        .upgrade-block .ub-main-heading {
+            font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            color: #1a1a1a;
+            margin-bottom: 28px;
+            text-align: center;
+        }
+
+        .upgrade-block .ub-heading {
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.6;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+        }
+
+        .feature-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 11.9px;
+            margin-bottom: 40px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+        }
+
+        .feature-list li {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #1a1a1a;
+        }
+
+        .upgrade-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            gap: 10px;
+            padding: 28px 48px;
+            border-radius: 60px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 1.87rem;
+            color: #fff;
+            background: #1a1a1a;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upgrade-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: #F97316;
+            left: -100%;
+            transition: left 0.35s ease;
+            z-index: 0;
+        }
+
+        .upgrade-btn:hover::before {
+            left: 0;
+        }
+
+        .upgrade-btn:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+            color: #fff;
+        }
+
+        .upgrade-btn:active {
+            transform: scale(0.98);
+        }
+
+        .upgrade-btn:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .upgrade-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .claim-btn {
+            display: block;
+            text-decoration: none;
+            text-align: center;
+            margin-bottom: 32px;
+            max-width: 60vw;
+            width: 100%;
+        }
+
+        /* Inner upgrade-block button keeps original sizing */
+        .upgrade-block .upgrade-btn {
+            font-size: 1.1rem;
+            padding: 20px 48px;
+        }
+
+        @media (max-width: 768px) {
+            .claim-btn {
+                max-width: 92vw;
+            }
+        }
+
+        .fine-print {
+            font-size: 0.8rem;
+            color: rgba(0, 0, 0, 0.4);
+            margin-top: 14px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                max-width: 92vw;
+            }
+
+            .upgrade-block {
+                max-width: 92vw;
+                padding: 36px 28px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                max-width: 92vw;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="heading fade-up">Brand Voice Skill Acquired!</h1>
+
+        <a class="upgrade-btn claim-btn fade-up"
+            href="https://app.notion.com/p/Creating-Your-Brand-Voice-Pack-37a067e0e2f3809eb643d124f458f2c5?source=copy_link"
+            target="_blank" rel="noopener noreferrer">
+            <span>Claim My New Skill</span>
+        </a>
+
+        <div class="upgrade-block fade-up">
+            <h2 class="ub-main-heading">Join The Content-to-Cashflow™ Academy For Free</h2>
+            <p class="ub-heading">While the ink is drying on your skill printout, you might want to claim your FREE pass
+                to the Content-to-Cashflow Academy waitlist. It contains everything you need to turn that shiny new
+                voice skill into a predictable cash machine <strong>(worth $498).</strong></p>
+
+            <ul class="feature-list">
+                <li>✅ Build high-ticket ascension ladders maximizing cashflow.</li>
+                <li>✅ High-converting VSLs and funnels turning attention into calls.</li>
+                <li>✅ Automated Manychat and DM flows converting traffic while you sleep.</li>
+                <li>✅ Bulletproof attribution tracking every single dollar spent.</li>
+                <li>✅ Automated infrastructure that builds, runs, and scales itself.</li>
+                <li>✅ High-conversion sales flows without being weird or aggressive.</li>
+            </ul>
+
+            <button class="upgrade-btn" id="upgrade-btn">
+                <span>Lock in my FREE spot</span>
+            </button>
+            <p class="fine-print" style="margin-top:12px;">⭐️ IMPORTANT: Free lifetime access is only available on this
+                page.</p>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            const params = new URLSearchParams(window.location.search);
+            const name = params.get('name') || '';
+            const email = params.get('email') || '';
+
+            document.getElementById('upgrade-btn').addEventListener('click', async function () {
+                const btn = this;
+                btn.querySelector('span').textContent = 'Claiming your spot...';
+                btn.disabled = true;
+
+                try {
+                    await fetch('https://api.convertkit.com/v3/forms/9525801/subscribe', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            api_key: 'DU-ryFa8xDbaGVfW35liKQ',
+                            form_id: '9525801',
+                            first_name: name,
+                            email: email,
+                            tags: [20196806]
+                        })
+                    });
+                } catch (err) {
+                    console.error('ConvertKit error:', err);
+                }
+
+                window.location.href = 'thank-you.html';
+            });
+        })();
+    </script>
+</body>
+
+</html>

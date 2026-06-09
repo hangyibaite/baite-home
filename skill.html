@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brand Voice-Pack Skill — Baite Studio</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="prefetch" href="thank-you.html" />
+    <link rel="prefetch" href="index.html" />
+    <link rel="preload" href="assets/images/brand-voice .png" as="image" />
+    <link rel="preload" href="assets/images/graphic.png" as="image" />
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1/dist/lenis.min.js"></script>
+
+    <style>
+        :root {
+            --bg:           #f1efe1;
+            --bg-elevated:  #FFFFFF;
+            --bg-contrast:  #1A1A1A;
+            --accent:       #1A1A1A;
+            --accent-2:     #7A1B2D;
+            --text:         #1A1A1A;
+            --text-dim:     #444444;
+            --text-inverse: #f1efe1;
+            --border:       rgba(0, 0, 0, 0.08);
+            --border-glass: rgba(255, 255, 255, 0.18);
+            --glass-bg:     rgba(255, 255, 255, 0.06);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* ── NAV ── */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 16px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: transparent;
+            border-bottom: 1px solid transparent;
+            transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, backdrop-filter 0.35s ease;
+        }
+
+        .nav.scrolled {
+            background: rgba(255, 255, 255, 0.33);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.07),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+                inset 0 0 6px 3px rgba(255, 255, 255, 0.3);
+        }
+
+        .nav-wordmark {
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 90px 24px 80px;
+            position: relative;
+        }
+
+        .hero-inner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            width: 90vw;
+            max-width: 90vw;
+        }
+
+        /* headline */
+        .hero-headline {
+            font-size: 3.315vw;
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 1.0;
+            color: var(--text);
+            margin-bottom: 20px;
+            width: 80vw;
+            white-space: nowrap;
+        }
+
+        .hero-headline em {
+            font-style: normal;
+            color: #F97316;
+        }
+
+        /* product image */
+        .hero-image-wrap {
+            width: 100%;
+            max-width: 680px;
+            margin: 16px auto 48px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 3px solid var(--text);
+            box-shadow: 8px 8px 0 #1A1A1A;
+        }
+
+        .hero-image-wrap img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* ── PRIMARY BUTTON (black → orange slide) ── */
+        .btn-primary {
+            position: relative;
+            overflow: hidden;
+            background: #1A1A1A;
+            color: #fff;
+            font-family: 'Manrope', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            border: 3px solid #000;
+            border-radius: 60px;
+            padding: 24px 66px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+            z-index: 0;
+            transition: color 0.2s ease 0.1s;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: #F97316;
+            border-radius: 60px;
+            transition: left 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: -1;
+        }
+
+        .btn-primary:hover::before { left: 0; }
+        .btn-primary:hover { color: #fff; }
+        .btn-primary:active { transform: scale(0.98); }
+
+        /* ── MODAL ── */
+        #modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        #modal-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-box {
+            background: #f5f2ee;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 20px;
+            padding: 40px 36px;
+            max-width: 440px;
+            width: 100%;
+            position: relative;
+            transform: translateY(16px);
+            transition: transform 0.25s ease;
+        }
+
+        #modal-overlay.open .modal-box {
+            transform: translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #6b6864;
+            font-size: 1.4rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: 4px;
+            transition: color 0.15s;
+        }
+
+        .modal-close:hover { color: #1a1a1a; }
+
+        .modal-heading {
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+        }
+
+        .modal-sub {
+            font-size: 0.95rem;
+            color: #6b6864;
+            margin-bottom: 28px;
+            line-height: 1.45;
+        }
+
+        .modal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .modal-input {
+            background: #ffffff;
+            border: 1px solid #e0ddd9;
+            border-radius: 12px;
+            color: #1a1a1a;
+            font-size: 0.95rem;
+            padding: 14px 16px;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            width: 100%;
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .modal-input::placeholder { color: #9a9896; }
+
+        .modal-input:focus {
+            border-color: #FF6B2C;
+            box-shadow: 0 0 0 3px rgba(255, 107, 44, 0.15);
+        }
+
+        .modal-input.input-error {
+            border-color: #ef4444;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+            animation: shake 0.35s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%  { transform: translateX(-6px); }
+            40%  { transform: translateX(6px); }
+            60%  { transform: translateX(-4px); }
+            80%  { transform: translateX(4px); }
+        }
+
+        .modal-submit {
+            position: relative;
+            overflow: hidden;
+            background: #1A1A1A;
+            color: #fff;
+            font-family: 'Manrope', sans-serif;
+            font-weight: 800;
+            font-size: 0.95rem;
+            border: 3px solid #000;
+            border-radius: 60px;
+            padding: 15px 28px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 4px;
+            z-index: 0;
+        }
+
+        .modal-submit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: #F97316;
+            border-radius: 60px;
+            transition: left 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: -1;
+        }
+
+        .modal-submit:hover::before { left: 0; }
+        .modal-submit:hover { color: #fff; }
+
+        /* ── BELOW-FOLD CONTENT ── */
+        .below-fold {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 24px 80px;
+            gap: 56px;
+        }
+
+        .graphic-wrap {
+            width: 85vw;
+            max-width: 85vw;
+        }
+
+        .graphic-wrap img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .checklist {
+            list-style: none;
+            max-width: 640px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            text-align: left;
+        }
+
+        .checklist li {
+            font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+            font-weight: 500;
+            line-height: 1.6;
+            color: var(--text);
+        }
+
+        .checklist li strong {
+            font-weight: 800;
+        }
+
+        .cta-bottom {
+            display: flex;
+            justify-content: center;
+        }
+
+        /* ── FOOTER ── */
+        .site-footer {
+            text-align: center;
+            padding: 40px 24px 48px;
+            border-top: 1px solid var(--border);
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        .site-footer p {
+            font-size: 0.78rem;
+            font-weight: 400;
+            color: var(--text-dim);
+            line-height: 1.65;
+        }
+
+        .site-footer .copyright {
+            margin-top: 16px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        /* ── MARQUEE ── */
+        .marquee-section {
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
+            overflow: hidden;
+            border-top: 3px solid var(--text);
+            border-bottom: 3px solid var(--text);
+            padding: 20px 0;
+        }
+
+        .marquee-track {
+            display: flex;
+            align-items: center;
+            width: max-content;
+            animation: marquee-scroll 56s linear infinite;
+        }
+
+        .marquee-item {
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            white-space: nowrap;
+            color: var(--text);
+            padding: 0 0.6em;
+            text-transform: uppercase;
+            display: inline-block;
+        }
+
+        .marquee-star {
+            font-size: clamp(0.9rem, 1.4vw, 1.1rem);
+            color: var(--text);
+            flex-shrink: 0;
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        @keyframes marquee-scroll {
+            from { transform: translateX(0); }
+            to   { transform: translateX(-50%); }
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .nav { padding: 14px 20px; }
+            .hero { padding: 75px 20px 72px; }
+            .hero-headline {
+                font-size: clamp(1.43rem, 5.85vw, 2.34rem);
+                white-space: normal;
+                width: 90vw;
+            }
+        }
+
+        @media (max-width: 515px) {
+            .hero-headline {
+                font-size: clamp(1.3rem, 7.15vw, 1.82rem);
+                white-space: normal;
+                width: 90vw;
+            }
+            .btn-primary {
+                font-size: 1.1rem;
+                padding: 18px 40px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav class="nav" id="nav">
+        <a href="/" class="nav-wordmark">Baite Studio</a>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+        <div class="hero-inner">
+
+            <h1 class="hero-headline">
+                Copy-Paste Your Personality Into Any AI <em>In Just 60s.</em>
+            </h1>
+
+            <div class="hero-image-wrap">
+                <img src="assets/images/brand-voice .png" alt="Brand Voice-Pack Skill preview" />
+            </div>
+
+            <a href="#modal" class="btn-primary cta-btn">Get My Free Skill →</a>
+
+        </div>
+    </section>
+
+    <!-- BELOW FOLD -->
+    <div class="below-fold">
+
+        <!-- Marquee -->
+        <div class="marquee-section">
+            <div class="marquee-track">
+                <span class="marquee-item">Open Source</span><span class="marquee-star">✦</span>
+                <span class="marquee-item">Content Creation</span><span class="marquee-star">✦</span>
+                <span class="marquee-item">Copywriting</span><span class="marquee-star">✦</span>
+                <span class="marquee-item">Brand Voice</span><span class="marquee-star">✦</span>
+                <!-- duplicate for seamless loop -->
+                <span class="marquee-item">Open Source</span><span class="marquee-star">✦</span>
+                <span class="marquee-item">Content Creation</span><span class="marquee-star">✦</span>
+                <span class="marquee-item">Copywriting</span><span class="marquee-star">✦</span>
+                <span class="marquee-item">Brand Voice</span><span class="marquee-star">✦</span>
+            </div>
+        </div>
+
+        <!-- Graphic -->
+        <div class="graphic-wrap">
+            <img src="assets/images/graphic.png" alt="Brand Voice-Pack Skill graphic" />
+        </div>
+
+        <!-- Checklist -->
+        <ul class="checklist">
+            <li>✅ <strong>Brand-Voice Skill:</strong> A plug-and-play AI skill designed to copy-paste your exact personality, tone, and style into any major AI model in seconds.</li>
+            <li>✅ <strong>Step-by-Step Setup:</strong> Get a dedicated, fully structured Notion Hub with idiot-proof instructions to organize and launch your brand voice instantly.</li>
+            <li>✅ <strong>Priority Academy Access:</strong> On the thank-you page, lock in an exclusive priority waitlist spot for our upcoming Content-to-Cashflow Academy (for FREE, worth $500).</li>
+        </ul>
+
+        <!-- Repeat CTA -->
+        <div class="cta-bottom">
+            <a href="#modal" class="btn-primary cta-btn">Get My Free Skill →</a>
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer style="padding: 0 24px 48px;">
+        <div class="site-footer">
+            <p>By providing your information you consent to baitestudio.com contacting you by text, phone, or email. We will not sell your personal information to any third-party. By providing this information you agree to our Privacy Policy and Terms of Service.</p>
+            <p class="copyright">© 2026 Baite Studio. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- MODAL -->
+    <div id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-box">
+            <button class="modal-close" id="close-modal" aria-label="Close">×</button>
+            <h2 class="modal-heading" id="modal-title">Get instant access — it's free.</h2>
+            <p class="modal-sub">Drop your email and we'll send you the Brand Voice-Pack Skill plus everything you need to wire it into Claude Code.</p>
+            <form class="modal-form" id="signup-form" novalidate>
+                <input class="modal-input" type="text" id="modal-name" name="name" placeholder="Your name" required />
+                <input class="modal-input" type="email" id="modal-email" name="email" placeholder="Your email" required />
+                <button type="submit" class="modal-submit">Send me the skill</button>
+                <p class="form-error" id="form-error" style="display:none;color:#ef4444;font-size:0.85rem;text-align:center;margin-top:8px;">Something went wrong. Please try again.</p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        /* Nav scroll state */
+        window.addEventListener('scroll', () => {
+            document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
+        }, { passive: true });
+
+        /* Lenis smooth scroll */
+        const lenis = new Lenis({ lerp: 0.07, wheelMultiplier: 1 });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        /* ── MODAL ── */
+        (function () {
+            const overlay  = document.getElementById('modal-overlay');
+            const closeBtn = document.getElementById('close-modal');
+            const form     = document.getElementById('signup-form');
+
+            function openModal()  { overlay.classList.add('open'); }
+            function closeModal() { overlay.classList.remove('open'); }
+
+            closeBtn.addEventListener('click', closeModal);
+            overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+            document.querySelectorAll('.cta-btn').forEach(btn => {
+                btn.addEventListener('click', e => { e.preventDefault(); openModal(); });
+            });
+
+            form.addEventListener('submit', e => {
+                e.preventDefault();
+                const nameEl  = document.getElementById('modal-name');
+                const emailEl = document.getElementById('modal-email');
+                const name    = nameEl.value.trim();
+                const email     = emailEl.value.trim();
+
+                let valid = true;
+                [nameEl, emailEl].forEach(el => el.classList.remove('input-error'));
+
+                if (!name) {
+                    nameEl.classList.add('input-error');
+                    nameEl.addEventListener('animationend', () => nameEl.classList.remove('input-error'), { once: true });
+                    valid = false;
+                }
+                if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    emailEl.classList.add('input-error');
+                    emailEl.addEventListener('animationend', () => emailEl.classList.remove('input-error'), { once: true });
+                    valid = false;
+                }
+                if (!valid) return;
+
+                window.location.href = 'skill-thank-you.html?name=' + encodeURIComponent(name) + '&email=' + encodeURIComponent(email);
+            });
+        })();
+    </script>
+
+</body>
+</html>
