@@ -190,6 +190,7 @@
             pointer-events: none;
             transition: opacity 0.3s ease;
         }
+
         #open-modal-nav.visible {
             opacity: 1;
             pointer-events: all;
@@ -206,31 +207,39 @@
         .social-proof-pill {
             display: inline-flex;
             align-items: center;
-            gap: clamp(6px, 1.2vw, 10px);
-            border: 3px solid #000;
+            gap: clamp(8px, 1.5vw, 12px);
             border-radius: 9999px;
-            padding: clamp(4px, 0.8vw, 6px) clamp(10px, 2vw, 16px) clamp(4px, 0.8vw, 6px) clamp(4px, 0.8vw, 6px);
-            position: absolute;
-            top: 68px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
-            flex-shrink: 0;
-            background: var(--bg);
+            padding: clamp(6px, 1vw, 10px) clamp(16px, 2.5vw, 24px);
             white-space: nowrap;
+            background: linear-gradient(135deg,
+                    rgba(0, 0, 0, 0.05) 0%,
+                    rgba(0, 0, 0, 0.02) 100%);
+            backdrop-filter: blur(20px) saturate(140%);
+            -webkit-backdrop-filter: blur(20px) saturate(140%);
+            border: 1px solid rgba(0, 0, 0, 0.12);
+            box-shadow:
+                inset 0 1px 1px rgba(255, 255, 255, 0.5),
+                0 8px 32px 0 rgba(0, 0, 0, 0.08);
+            transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, translate 0.3s ease;
         }
 
-        .social-proof-text {
-            font-size: clamp(0.7rem, 1.5vw, 0.82rem);
+        .social-proof-pill:hover {
+            background: linear-gradient(135deg,
+                    rgba(0, 0, 0, 0.08) 0%,
+                    rgba(0, 0, 0, 0.03) 100%);
+            border-color: rgba(0, 0, 0, 0.2);
+            box-shadow:
+                inset 0 1px 2px rgba(255, 255, 255, 0.6),
+                0 12px 40px 0 rgba(0, 0, 0, 0.12);
+            translate: 0 -3px;
         }
 
-        @media (max-width: 768px) {
-            .social-proof-pill {
-                top: 44px;
-                transform: translateX(-50%) scale(0.72);
-                transform-origin: center top;
-                border-width: 2px;
-            }
+        .social-proof-now {
+            transition: color 0.3s ease;
+        }
+
+        .social-proof-pill:hover .social-proof-now {
+            color: #F97316;
         }
 
         .avatar-stack {
@@ -239,17 +248,23 @@
         }
 
         .avatar-circle {
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
-            border: 2px solid var(--bg);
-            background: var(--bg-elevated);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 15px;
+            object-fit: cover;
             margin-left: -8px;
-            flex-shrink: 0;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .social-proof-pill:hover .avatar-circle:nth-child(1) {
+            transform: translateX(-2px);
+        }
+        .social-proof-pill:hover .avatar-circle:nth-child(2) {
+            transform: scale(1.025);
+        }
+        .social-proof-pill:hover .avatar-circle:nth-child(3) {
+            transform: translateX(2px);
         }
 
         .avatar-circle:first-child {
@@ -257,10 +272,9 @@
         }
 
         .social-proof-text {
+            font-size: clamp(0.8rem, 1.4vw, 0.95rem);
             font-weight: 500;
-            letter-spacing: -0.01em;
             color: var(--text);
-            white-space: nowrap;
         }
 
         /* ── HERO FISH CURSOR ── */
@@ -275,7 +289,7 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-            padding: 140px 0 0 0;
+            padding: 60px 0 0 0;
             position: relative;
             overflow: visible;
         }
@@ -884,14 +898,14 @@
             text-decoration: none;
             border: 3px solid #fff;
             border-radius: 12px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 50%), #EA6200;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 50%), #EA6200;
             box-shadow:
-                1px 1px 0 #000,  2px 2px 0 #000,  3px 3px 0 #000,  4px 4px 0 #000,
-                5px 5px 0 #000,  6px 6px 0 #000,  7px 7px 0 #000,  8px 8px 0 #000,
-                9px 9px 0 #000,  10px 10px 0 #000, 11px 11px 0 #000, 12px 12px 0 #000,
+                1px 1px 0 #000, 2px 2px 0 #000, 3px 3px 0 #000, 4px 4px 0 #000,
+                5px 5px 0 #000, 6px 6px 0 #000, 7px 7px 0 #000, 8px 8px 0 #000,
+                9px 9px 0 #000, 10px 10px 0 #000, 11px 11px 0 #000, 12px 12px 0 #000,
                 13px 13px 0 #000, 14px 14px 0 #000, 15px 15px 0 #000, 16px 16px 0 #000,
-                16px 16px 30px rgba(0,0,0,0.6),
-                0 0 28px rgba(234,98,0,0.18), 0 0 60px rgba(234,98,0,0.07);
+                16px 16px 30px rgba(0, 0, 0, 0.6),
+                0 0 28px rgba(234, 98, 0, 0.18), 0 0 60px rgba(234, 98, 0, 0.07);
             transform-style: preserve-3d;
             transform: rotateX(8deg) rotateY(-8deg) translateZ(30px) scale(2.04);
             transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s ease;
@@ -904,7 +918,7 @@
             transform: translateZ(40px);
             display: inline-flex;
             align-items: center;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.35);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
         }
 
         /* diagonal gloss overlay */
@@ -912,7 +926,7 @@
             position: absolute;
             inset: 0;
             border-radius: 9px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 50%);
             pointer-events: none;
         }
 
@@ -932,10 +946,12 @@
             pointer-events: none;
             transition: opacity 0.25s ease;
         }
+
         #modal-overlay.open {
             opacity: 1;
             pointer-events: all;
         }
+
         .modal-box {
             background: #f5f2ee;
             border: 1px solid rgba(0, 0, 0, 0.08);
@@ -947,9 +963,11 @@
             transform: translateY(16px);
             transition: transform 0.25s ease;
         }
+
         #modal-overlay.open .modal-box {
             transform: translateY(0);
         }
+
         .modal-close {
             position: absolute;
             top: 16px;
@@ -963,7 +981,11 @@
             padding: 4px;
             transition: color 0.15s;
         }
-        .modal-close:hover { color: #1a1a1a; }
+
+        .modal-close:hover {
+            color: #1a1a1a;
+        }
+
         .modal-heading {
             font-size: 1.6rem;
             font-weight: 800;
@@ -972,17 +994,20 @@
             color: #1a1a1a;
             margin-bottom: 10px;
         }
+
         .modal-sub {
             font-size: 0.95rem;
             color: #6b6864;
             margin-bottom: 28px;
             line-height: 1.45;
         }
+
         .modal-form {
             display: flex;
             flex-direction: column;
             gap: 14px;
         }
+
         .modal-input {
             background: #ffffff;
             border: 1px solid #e0ddd9;
@@ -995,24 +1020,50 @@
             width: 100%;
             font-family: 'Manrope', sans-serif;
         }
-        .modal-input::placeholder { color: #9a9896; }
+
+        .modal-input::placeholder {
+            color: #9a9896;
+        }
+
         .modal-input:focus {
             border-color: #FF6B2C;
             box-shadow: 0 0 0 3px rgba(255, 107, 44, 0.15);
         }
+
         .modal-input.input-error {
             border-color: #ef4444;
             box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
             animation: shake 0.35s ease;
         }
+
         @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20% { transform: translateX(-6px); }
-            40% { transform: translateX(6px); }
-            60% { transform: translateX(-4px); }
-            80% { transform: translateX(4px); }
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            20% {
+                transform: translateX(-6px);
+            }
+
+            40% {
+                transform: translateX(6px);
+            }
+
+            60% {
+                transform: translateX(-4px);
+            }
+
+            80% {
+                transform: translateX(4px);
+            }
         }
-        .modal-submit { width: 100%; margin-top: 4px; }
+
+        .modal-submit {
+            width: 100%;
+            margin-top: 4px;
+        }
 
         /* ── MODAL MULTI-STEP ── */
         .modal-progress-wrap {
@@ -1204,11 +1255,11 @@
 
             <div class="social-proof-pill">
                 <div class="avatar-stack">
-                    <div class="avatar-circle">👩🏽</div>
-                    <div class="avatar-circle">👨🏻</div>
-                    <div class="avatar-circle">👩🏾</div>
+                    <img class="avatar-circle" src="assets/images/1igpfp.jpg" alt="">
+                    <img class="avatar-circle" src="assets/images/2igpfp.jpg" alt="">
+                    <img class="avatar-circle" src="assets/images/3igpfp.jpg" alt="">
                 </div>
-                <span class="social-proof-text">200+ have joined</span>
+                <span class="social-proof-text">Claim Your Spot <span class="social-proof-now">Now</span></span>
             </div>
 
             <h1 class="hero-headline" id="hero-headline">
@@ -1217,8 +1268,9 @@
                 <span class="word-wrap"><span class="word-inner">CONTENT</span></span><br>
                 <span class="word-wrap"><span class="word-inner">INTO</span></span>
                 <span class="word-wrap"><span class="word-inner">CASH</span></span><span
-                    class="word-wrap sticker-wrap"><span class="word-inner"><a href="#community" class="sticker-btn cta-btn"
-                            aria-label="Apply Now"><span class="sticker-label">Apply&nbsp;→</span></a></span></span>
+                    class="word-wrap sticker-wrap"><span class="word-inner"><a href="#community"
+                            class="sticker-btn cta-btn" aria-label="Apply Now"><span
+                                class="sticker-label">Apply&nbsp;→</span></a></span></span>
             </h1>
         </div>
 
@@ -1285,8 +1337,9 @@
                 <div class="feat-card-wrap">
                     <div class="feat-card">
                         <div class="feat-card-content">
-                            <h3 class="feat-card-title">The Bot Army</h3>
-                            <p class="feat-card-body">Manychat flows and automated DMs that run your front-end while you
+                            <h3 class="feat-card-title">The Content Army</h3>
+                            <p class="feat-card-body">Content scripting, funnels, and automated DMs that run your
+                                front-end while you
                                 sleep.</p>
                         </div>
                     </div>
@@ -1501,7 +1554,8 @@
             </a>
             <div class="lead-magnet-content">
                 <h2 class="lead-magnet-heading">GET YOUR BRAND VOICE SKILL</h2>
-                <p class="lead-magnet-sub">The Ultimate Open-Source Skill To Copy-Paste Your Voice Into Any AI Copywriter</p>
+                <p class="lead-magnet-sub">The Ultimate Open-Source Skill To Copy-Paste Your Voice Into Any AI
+                    Copywriter</p>
                 <a href="skill.html" class="btn-primary lead-magnet-btn">Get My Free Skill</a>
             </div>
         </div>
@@ -1815,9 +1869,9 @@
             if (!btn) return;
 
             const getScale = () => window.innerWidth < 515 ? 1.1 : window.innerWidth < 768 ? 1.4 : 2.04;
-            const resting      = () => `rotateX(8deg) rotateY(-8deg) translateZ(30px) scale(${getScale()})`;
+            const resting = () => `rotateX(8deg) rotateY(-8deg) translateZ(30px) scale(${getScale()})`;
             const restingShadow = '1px 1px 0 #000,2px 2px 0 #000,3px 3px 0 #000,4px 4px 0 #000,5px 5px 0 #000,6px 6px 0 #000,7px 7px 0 #000,8px 8px 0 #000,9px 9px 0 #000,10px 10px 0 #000,11px 11px 0 #000,12px 12px 0 #000,13px 13px 0 #000,14px 14px 0 #000,15px 15px 0 #000,16px 16px 0 #000,16px 16px 30px rgba(0,0,0,0.6),0 0 28px rgba(234,98,0,0.18),0 0 60px rgba(234,98,0,0.07)';
-            const hoverShadow  = '1px 1px 0 #000,2px 2px 0 #000,3px 3px 0 #000,4px 4px 0 #000,5px 5px 0 #000,6px 6px 0 #000,7px 7px 0 #000,8px 8px 12px rgba(0,0,0,0.5)';
+            const hoverShadow = '1px 1px 0 #000,2px 2px 0 #000,3px 3px 0 #000,4px 4px 0 #000,5px 5px 0 #000,6px 6px 0 #000,7px 7px 0 #000,8px 8px 12px rgba(0,0,0,0.5)';
 
             // set initial resting state
             btn.style.transform = resting();
@@ -1848,98 +1902,98 @@
     <!-- ── CURSOR TRAIL ── -->
     <div id="trail-container" style="position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden;"></div>
     <script>
-    if (window.matchMedia('(pointer: fine)').matches) {
-        (function () {
-            const container = document.getElementById('trail-container');
+        if (window.matchMedia('(pointer: fine)').matches) {
+            (function () {
+                const container = document.getElementById('trail-container');
 
-            const ASSETS = [
-                'assets/images/2.svg',
-                'assets/images/3.svg',
-                'assets/images/4.svg',
-            ];
+                const ASSETS = [
+                    'assets/images/2.svg',
+                    'assets/images/3.svg',
+                    'assets/images/4.svg',
+                ];
 
-            const particles = [];
-            let lastSpawn = 0;
-            let lastX = 0, lastY = 0;
-            const THROTTLE = 120;
-            const MIN_DIST = 25;
-            const GRAVITY = 0.025;
+                const particles = [];
+                let lastSpawn = 0;
+                let lastX = 0, lastY = 0;
+                const THROTTLE = 120;
+                const MIN_DIST = 25;
+                const GRAVITY = 0.025;
 
-            function handleMouseMove(e) {
-                const now = Date.now();
-                const dx = e.clientX - lastX;
-                const dy = e.clientY - lastY;
-                if (now - lastSpawn < THROTTLE) return;
-                if (Math.sqrt(dx * dx + dy * dy) < MIN_DIST) return;
-                lastSpawn = now;
-                lastX = e.clientX;
-                lastY = e.clientY;
+                function handleMouseMove(e) {
+                    const now = Date.now();
+                    const dx = e.clientX - lastX;
+                    const dy = e.clientY - lastY;
+                    if (now - lastSpawn < THROTTLE) return;
+                    if (Math.sqrt(dx * dx + dy * dy) < MIN_DIST) return;
+                    lastSpawn = now;
+                    lastX = e.clientX;
+                    lastY = e.clientY;
 
-                const size = 54;
-                const src = ASSETS[Math.floor(Math.random() * ASSETS.length)];
-                const el = document.createElement('div');
-                el.style.cssText = `position:absolute;width:${size}px;height:${size}px;left:${e.clientX - size / 2}px;top:${e.clientY - size / 2}px;pointer-events:none;will-change:transform,opacity;`;
-                el.innerHTML = `<img src="${src}" style="width:100%;height:100%;display:block;" draggable="false" />`;
-                container.appendChild(el);
+                    const size = 54;
+                    const src = ASSETS[Math.floor(Math.random() * ASSETS.length)];
+                    const el = document.createElement('div');
+                    el.style.cssText = `position:absolute;width:${size}px;height:${size}px;left:${e.clientX - size / 2}px;top:${e.clientY - size / 2}px;pointer-events:none;will-change:transform,opacity;`;
+                    el.innerHTML = `<img src="${src}" style="width:100%;height:100%;display:block;" draggable="false" />`;
+                    container.appendChild(el);
 
-                particles.push({
-                    el,
-                    x: e.clientX - size / 2,
-                    y: e.clientY - size / 2,
-                    vx: (Math.random() - 0.5) * 1.0,
-                    vy: -(Math.random() * 0.6 + 0.2),
-                    rotation: (Math.random() - 0.5) * 20,
-                    spin: (Math.random() - 0.5) * 1.5,
-                    opacity: 1.0,
-                });
-            }
-
-            // Fish cursor — hero only, no trail
-            const heroEl = document.getElementById('hero');
-            heroEl.addEventListener('mouseenter', () => document.body.classList.add('hero-fish-cursor'));
-            heroEl.addEventListener('mouseleave', () => document.body.classList.remove('hero-fish-cursor'));
-
-            // Trailing icons — conviction section only
-            const convictionEl = document.getElementById('conviction');
-            convictionEl.addEventListener('mousemove', handleMouseMove);
-
-            function tick() {
-                for (let i = particles.length - 1; i >= 0; i--) {
-                    const p = particles[i];
-                    p.vy += GRAVITY;
-                    p.x += p.vx;
-                    p.y += p.vy;
-                    p.rotation += p.spin;
-                    p.opacity -= 0.01;
-
-                    if (p.opacity <= 0) {
-                        p.el.remove();
-                        particles.splice(i, 1);
-                        continue;
-                    }
-
-                    p.el.style.transform = `translate(${p.x - parseFloat(p.el.style.left)}px, ${p.y - parseFloat(p.el.style.top)}px) rotate(${p.rotation}deg)`;
-                    p.el.style.opacity = p.opacity;
+                    particles.push({
+                        el,
+                        x: e.clientX - size / 2,
+                        y: e.clientY - size / 2,
+                        vx: (Math.random() - 0.5) * 1.0,
+                        vy: -(Math.random() * 0.6 + 0.2),
+                        rotation: (Math.random() - 0.5) * 20,
+                        spin: (Math.random() - 0.5) * 1.5,
+                        opacity: 1.0,
+                    });
                 }
-                requestAnimationFrame(tick);
-            }
-            tick();
-        })();
-    } // end pointer: fine
 
-    // Nav button — reveal after hero scrolls out
-    const navBtn = document.getElementById('open-modal-nav');
-    const hero = document.getElementById('hero');
-    const heroObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (!entry.isIntersecting) {
-                navBtn.classList.add('visible');
-            } else {
-                navBtn.classList.remove('visible');
-            }
-        });
-    }, { threshold: 0 });
-    heroObserver.observe(hero);
+                // Fish cursor — hero only, no trail
+                const heroEl = document.getElementById('hero');
+                heroEl.addEventListener('mouseenter', () => document.body.classList.add('hero-fish-cursor'));
+                heroEl.addEventListener('mouseleave', () => document.body.classList.remove('hero-fish-cursor'));
+
+                // Trailing icons — conviction section only
+                const convictionEl = document.getElementById('conviction');
+                convictionEl.addEventListener('mousemove', handleMouseMove);
+
+                function tick() {
+                    for (let i = particles.length - 1; i >= 0; i--) {
+                        const p = particles[i];
+                        p.vy += GRAVITY;
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        p.rotation += p.spin;
+                        p.opacity -= 0.01;
+
+                        if (p.opacity <= 0) {
+                            p.el.remove();
+                            particles.splice(i, 1);
+                            continue;
+                        }
+
+                        p.el.style.transform = `translate(${p.x - parseFloat(p.el.style.left)}px, ${p.y - parseFloat(p.el.style.top)}px) rotate(${p.rotation}deg)`;
+                        p.el.style.opacity = p.opacity;
+                    }
+                    requestAnimationFrame(tick);
+                }
+                tick();
+            })();
+        } // end pointer: fine
+
+        // Nav button — reveal after hero scrolls out
+        const navBtn = document.getElementById('open-modal-nav');
+        const hero = document.getElementById('hero');
+        const heroObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) {
+                    navBtn.classList.add('visible');
+                } else {
+                    navBtn.classList.remove('visible');
+                }
+            });
+        }, { threshold: 0 });
+        heroObserver.observe(hero);
     </script>
 
 
@@ -1961,17 +2015,22 @@
                 <p class="modal-sub">Drop your details below. We'll send you an instant access link that you can leave
                     sitting unread in your inbox for the next three to five business days.🎉🎉</p>
                 <form class="modal-form" id="signup-form" novalidate>
-                    <input class="modal-input" type="text" id="modal-name" name="name" placeholder="Your name" required />
-                    <input class="modal-input" type="email" id="modal-email" name="email" placeholder="Your email" required />
+                    <input class="modal-input" type="text" id="modal-name" name="name" placeholder="Your name"
+                        required />
+                    <input class="modal-input" type="email" id="modal-email" name="email" placeholder="Your email"
+                        required />
                     <button type="submit" class="btn-primary modal-submit">Apply Now</button>
-                    <p class="form-error" id="form-error" style="display:none;color:#ef4444;font-size:0.85rem;text-align:center;margin-top:8px;">Something went wrong. Please try again.</p>
+                    <p class="form-error" id="form-error"
+                        style="display:none;color:#ef4444;font-size:0.85rem;text-align:center;margin-top:8px;">Something
+                        went wrong. Please try again.</p>
                 </form>
             </div>
 
             <!-- Step intro: gatekeeper interstitial -->
             <div class="modal-step" id="modal-step-intro" style="display:none;">
                 <h2 class="modal-heading" style="margin-bottom:14px;">Halthe, traveler! 🧙</h2>
-                <p class="modal-sub">Our automated gatekeeper needs you to answer 5 quick questions before you can join the waitlist. Don't worry — they're all MCQs.</p>
+                <p class="modal-sub">Our automated gatekeeper needs you to answer 5 quick questions before you can join
+                    the waitlist. Don't worry — they're all MCQs.</p>
                 <button type="button" class="btn-primary modal-submit" id="modal-intro-btn">Let's go →</button>
             </div>
 
@@ -1979,7 +2038,9 @@
             <div class="modal-step" id="modal-step-q" style="display:none;">
                 <h2 class="modal-q-heading" id="modal-q-text"></h2>
                 <div class="modal-options" id="modal-options"></div>
-                <p id="modal-status" style="display:none;margin-top:14px;font-size:0.85rem;color:#6b6864;text-align:center;">Registering...</p>
+                <p id="modal-status"
+                    style="display:none;margin-top:14px;font-size:0.85rem;color:#6b6864;text-align:center;">
+                    Registering...</p>
             </div>
         </div>
     </div>
@@ -1990,67 +2051,67 @@
         const CK_FORM_ID = '9525801';
 
         const TAG_IDS = {
-            'q1-posting-no-traction':  20107031,
-            'q1-views-no-money':       20107035,
-            'q1-audience-no-offer':    20107036,
-            'q1-starting-from-zero':   20107037,
+            'q1-posting-no-traction': 20107031,
+            'q1-views-no-money': 20107035,
+            'q1-audience-no-offer': 20107036,
+            'q1-starting-from-zero': 20107037,
             'q2-first-client-60-days': 20107040,
-            'q2-leads-on-autopilot':   20107041,
-            'q2-scale-to-10-30k':      20107043,
-            'q2-scale-to-30k-plus':    20107042,
-            'q3-winging-strategy':     20107044,
-            'q3-courses-no-results':   20107045,
-            'q3-tried-outreach':       20107046,
-            'q3-starting-from-zero':   20107047,
-            'q4-build-with-me':        20107048,
-            'q4-build-for-me':         20107049,
-            'q4-tools-and-templates':  20107051,
-            'q4-full-package':         20107052,
-            'q5-pinky-promise-yes':    20107053,
+            'q2-leads-on-autopilot': 20107041,
+            'q2-scale-to-10-30k': 20107043,
+            'q2-scale-to-30k-plus': 20107042,
+            'q3-winging-strategy': 20107044,
+            'q3-courses-no-results': 20107045,
+            'q3-tried-outreach': 20107046,
+            'q3-starting-from-zero': 20107047,
+            'q4-build-with-me': 20107048,
+            'q4-build-for-me': 20107049,
+            'q4-tools-and-templates': 20107051,
+            'q4-full-package': 20107052,
+            'q5-pinky-promise-yes': 20107053,
         };
 
         const QUESTIONS = [
             {
                 text: 'Where are you right now?',
                 options: [
-                    { label: 'Posting but getting zero traction',      tag: 'q1-posting-no-traction' },
-                    { label: 'Getting views but making no money',       tag: 'q1-views-no-money' },
-                    { label: 'Have an audience, no monetization system',tag: 'q1-audience-no-offer' },
-                    { label: "Monetised and scaling",                   tag: 'q1-starting-from-zero' },
+                    { label: 'Posting but getting zero traction', tag: 'q1-posting-no-traction' },
+                    { label: 'Getting views but making no money', tag: 'q1-views-no-money' },
+                    { label: 'Have an audience, no monetization system', tag: 'q1-audience-no-offer' },
+                    { label: "Monetised and scaling", tag: 'q1-starting-from-zero' },
                 ]
             },
             {
                 text: 'What does winning look like for you in the next 90 days?',
                 options: [
-                    { label: 'Land my first paying client',     tag: 'q2-first-client-60-days' },
-                    { label: 'Leads coming in on autopilot',    tag: 'q2-leads-on-autopilot' },
-                    { label: 'Scale to 10–30k/mo',              tag: 'q2-scale-to-10-30k' },
-                    { label: 'Scale to >30k/mo',                tag: 'q2-scale-to-30k-plus' },
+                    { label: 'Land my first paying client', tag: 'q2-first-client-60-days' },
+                    { label: 'Leads coming in on autopilot', tag: 'q2-leads-on-autopilot' },
+                    { label: 'Scale to 10–30k/mo', tag: 'q2-scale-to-10-30k' },
+                    { label: 'Scale to >30k/mo', tag: 'q2-scale-to-30k-plus' },
                 ]
             },
             {
                 text: 'What have you already tried?',
                 options: [
-                    { label: "Honestly, just wingin' it",            tag: 'q3-winging-strategy' },
-                    { label: 'Bought courses, got zero results',      tag: 'q3-courses-no-results' },
-                    { label: 'DMs and outreach, felt too spammy',     tag: 'q3-tried-outreach' },
-                    { label: 'Nothing yet, starting from zero',       tag: 'q3-starting-from-zero' },
+                    { label: "Honestly, just wingin' it", tag: 'q3-winging-strategy' },
+                    { label: 'Bought courses, got zero results', tag: 'q3-courses-no-results' },
+                    { label: 'DMs and outreach, felt too spammy', tag: 'q3-tried-outreach' },
+                    { label: 'Nothing yet, starting from zero', tag: 'q3-starting-from-zero' },
                 ]
             },
             {
                 text: 'What kind of support do you need most right now?',
                 options: [
-                    { label: 'Build it with me',            tag: 'q4-build-with-me' },
-                    { label: 'Build it all for me',         tag: 'q4-build-for-me' },
-                    { label: 'Just tools and templates',    tag: 'q4-tools-and-templates' },
-                    { label: 'The whole package, all of it',tag: 'q4-full-package' },
+                    { label: 'Build it with me', tag: 'q4-build-with-me' },
+                    { label: 'Build it all for me', tag: 'q4-build-for-me' },
+                    { label: 'Just tools and templates', tag: 'q4-tools-and-templates' },
+                    { label: 'The whole package, all of it', tag: 'q4-full-package' },
                 ]
             },
             {
                 text: "Do you pinky promise to actually show up and use what's inside?",
                 options: [
-                    { label: "Yes, I'm ready to commit ✊",  tag: 'q5-pinky-promise-yes' },
-                    { label: 'No, I hoard free things 😅',  tag: 'q5-pinky-promise-no' },
+                    { label: "Yes, I'm ready to commit ✊", tag: 'q5-pinky-promise-yes' },
+                    { label: 'No, I hoard free things 😅', tag: 'q5-pinky-promise-no' },
                 ]
             },
         ];
@@ -2059,23 +2120,23 @@
         let userData = { name: '', email: '' };
         let selectedTags = {};
 
-        const overlay      = document.getElementById('modal-overlay');
-        const closeBtn     = document.getElementById('close-modal');
-        const form         = document.getElementById('signup-form');
-        const stepEl0      = document.getElementById('modal-step-0');
-        const stepElIntro  = document.getElementById('modal-step-intro');
-        const stepElQ      = document.getElementById('modal-step-q');
+        const overlay = document.getElementById('modal-overlay');
+        const closeBtn = document.getElementById('close-modal');
+        const form = document.getElementById('signup-form');
+        const stepEl0 = document.getElementById('modal-step-0');
+        const stepElIntro = document.getElementById('modal-step-intro');
+        const stepElQ = document.getElementById('modal-step-q');
         const progressWrap = document.getElementById('modal-progress-wrap');
         const progressFill = document.getElementById('modal-progress-fill');
-        const progressLbl  = document.getElementById('modal-progress-label');
-        const qText        = document.getElementById('modal-q-text');
-        const optionsEl    = document.getElementById('modal-options');
+        const progressLbl = document.getElementById('modal-progress-label');
+        const qText = document.getElementById('modal-q-text');
+        const optionsEl = document.getElementById('modal-options');
 
         function showStep(step) {
             currentStep = step;
-            stepEl0.style.display      = 'none';
-            stepElIntro.style.display  = 'none';
-            stepElQ.style.display      = 'none';
+            stepEl0.style.display = 'none';
+            stepElIntro.style.display = 'none';
+            stepElQ.style.display = 'none';
             progressWrap.style.display = 'none';
 
             if (step === 0) {
@@ -2083,11 +2144,11 @@
             } else if (step === 'intro') {
                 stepElIntro.style.display = '';
             } else {
-                stepElQ.style.display      = '';
+                stepElQ.style.display = '';
                 progressWrap.style.display = '';
                 const qIndex = step - 1;
-                progressFill.style.width   = (step * 20) + '%';
-                progressLbl.textContent    = `Question ${step} of 5`;
+                progressFill.style.width = (step * 20) + '%';
+                progressLbl.textContent = `Question ${step} of 5`;
                 const q = QUESTIONS[qIndex];
                 qText.textContent = q.text;
                 optionsEl.innerHTML = '';
@@ -2164,10 +2225,10 @@
 
         form.addEventListener('submit', e => {
             e.preventDefault();
-            const nameEl  = document.getElementById('modal-name');
+            const nameEl = document.getElementById('modal-name');
             const emailEl = document.getElementById('modal-email');
-            const name    = nameEl.value.trim();
-            const email   = emailEl.value.trim();
+            const name = nameEl.value.trim();
+            const email = emailEl.value.trim();
 
             let valid = true;
             [nameEl, emailEl].forEach(el => el.classList.remove('input-error'));
