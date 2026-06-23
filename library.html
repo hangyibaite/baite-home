@@ -28,9 +28,7 @@
   /* NAVBAR */
   .navbar {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: 0; left: 0; right: 0;
     height: 60px;
     background: var(--bg);
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
@@ -66,19 +64,22 @@
     border: none;
     cursor: pointer;
     text-decoration: none;
-    transition: transform 0.3s ease;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   .navbar-cta:hover {
     transform: scale(1.03) translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
   }
   .navbar-cta:active { transform: scale(0.98); }
 
   /* WATERMARK */
   .watermark {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     z-index: 0;
     pointer-events: none;
     font-family: 'Manrope', sans-serif;
@@ -87,44 +88,40 @@
     color: rgba(26, 26, 26, 0.04);
     letter-spacing: -0.03em;
     text-transform: uppercase;
-    white-space: nowrap;
     user-select: none;
   }
 
-  /* CANVAS VIEWPORT */
-  .canvas-viewport {
+  /* VIEWPORT + CANVAS */
+  #viewport {
     position: fixed;
-    top: 0;
-    left: 0;
+    inset: 0;
+    overflow: hidden;
+    z-index: 1;
+    cursor: grab;
+  }
+  #viewport.is-dragging { cursor: grabbing; }
+
+  #canvas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 0; height: 0;
+    will-change: transform;
+  }
+
+  /* CARD WRAP + CARD */
+  .card-wrap {
+    position: absolute;
+  }
+  .card {
     width: 100%;
     height: 100%;
-    z-index: 1;
-    overflow: hidden;
-  }
-
-  .tile-canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    will-change: transform;
-    cursor: grab;
-    user-select: none;
-  }
-  .tile-canvas.is-dragging {
-    cursor: grabbing;
-  }
-
-  /* CARD */
-  .card {
-    position: absolute;
     background: #FFFFFF;
     border-radius: 12px;
     cursor: pointer;
-    transform: rotate(var(--card-rotate, 0deg));
-    transition: transform 0.4s cubic-bezier(0.34, 2.2, 0.64, 1);
+    transition: transform 0.5s cubic-bezier(0.34, 2.2, 0.64, 1);
   }
   .card:hover {
-    transform: scale(1.04) rotate(0deg) !important;
+    transform: scale(1.04) rotate(0deg);
   }
 
   /* MOBILE */
@@ -144,134 +141,153 @@
 
 <div class="watermark">LIBRARY</div>
 
-<div class="canvas-viewport">
-  <div class="tile-canvas" id="canvas"></div>
+<div id="viewport">
+  <div id="canvas"></div>
 </div>
 
 <script>
-  const cardDefs = [
-    { left: 5, top: 4, w: 110, h: 130, rot: -2 },
-    { left: 40, top: 2, w: 150, h: 170, rot: 1.5 },
-    { left: 72, top: 6, w: 120, h: 140, rot: -1 },
-    { left: 18, top: 24, w: 170, h: 190, rot: 2 },
-    { left: 55, top: 22, w: 130, h: 150, rot: -3 },
-    { left: 78, top: 28, w: 110, h: 130, rot: 1 },
-    { left: 8, top: 46, w: 140, h: 160, rot: -1.5 },
-    { left: 35, top: 44, w: 110, h: 130, rot: 2.5 },
-    { left: 62, top: 48, w: 150, h: 170, rot: -2 },
-    { left: 3, top: 68, w: 130, h: 150, rot: 1 },
-    { left: 42, top: 66, w: 170, h: 190, rot: -1.5 },
-    { left: 75, top: 70, w: 120, h: 140, rot: 2 }
+  var TILE_W = 2200;
+  var TILE_H = 1600;
+
+  var cardDefs = [
+    // Row 1
+    { bx: 100,  by: 60,   w: 110, h: 130, rot: -2 },
+    { bx: 480,  by: 40,   w: 150, h: 170, rot: 1.5 },
+    { bx: 900,  by: 80,   w: 120, h: 140, rot: -1 },
+    { bx: 1300, by: 50,   w: 130, h: 150, rot: 2 },
+    { bx: 1750, by: 70,   w: 110, h: 130, rot: -1.5 },
+    // Row 2
+    { bx: 200,  by: 340,  w: 140, h: 160, rot: 1 },
+    { bx: 650,  by: 320,  w: 170, h: 190, rot: -2.5 },
+    { bx: 1100, by: 350,  w: 115, h: 135, rot: 2 },
+    { bx: 1550, by: 330,  w: 150, h: 170, rot: -1 },
+    { bx: 1950, by: 360,  w: 120, h: 140, rot: 1.5 },
+    // Row 3
+    { bx: 80,   by: 620,  w: 160, h: 180, rot: -1 },
+    { bx: 520,  by: 600,  w: 130, h: 150, rot: 2.5 },
+    { bx: 950,  by: 640,  w: 110, h: 130, rot: -2 },
+    { bx: 1400, by: 610,  w: 140, h: 160, rot: 1 },
+    { bx: 1850, by: 630,  w: 135, h: 155, rot: -1.5 },
+    // Row 4
+    { bx: 250,  by: 900,  w: 150, h: 170, rot: 1.5 },
+    { bx: 700,  by: 880,  w: 120, h: 145, rot: -2 },
+    { bx: 1150, by: 910,  w: 170, h: 190, rot: 1 },
+    { bx: 1600, by: 890,  w: 110, h: 130, rot: -2.5 },
+    { bx: 2000, by: 920,  w: 130, h: 150, rot: 2 },
+    // Row 5
+    { bx: 100,  by: 1180, w: 120, h: 140, rot: -1 },
+    { bx: 550,  by: 1160, w: 160, h: 180, rot: 2 },
+    { bx: 1000, by: 1200, w: 115, h: 135, rot: -1.5 },
+    { bx: 1450, by: 1170, w: 150, h: 170, rot: 3 },
   ];
 
-  var canvas = document.getElementById('canvas');
+  var canvasEl = document.getElementById('canvas');
+  var viewportEl = document.getElementById('viewport');
 
-  var canvasW = window.innerWidth;
-  var canvasH = window.innerHeight * 2;
-  canvas.style.width = canvasW + 'px';
-  canvas.style.height = canvasH + 'px';
+  var cards = cardDefs.map(function (def, i) {
+    var wrap = document.createElement('div');
+    wrap.className = 'card-wrap';
+    wrap.style.width = def.w + 'px';
+    wrap.style.height = def.h + 'px';
+    wrap.style.transform = 'rotate(' + def.rot + 'deg)';
 
-  cardDefs.forEach(function (def, i) {
-    var card = document.createElement('div');
-    card.className = 'card';
-    card.style.left = (def.left / 100) * canvasW + 'px';
-    card.style.top = (def.top / 100) * canvasH + 80 + 'px';
-    card.style.width = def.w + 'px';
-    card.style.height = def.h + 'px';
-    card.style.setProperty('--card-rotate', def.rot + 'deg');
-    card.addEventListener('click', function () {
-      console.log('skill ' + (i + 1) + ' clicked');
+    var inner = document.createElement('div');
+    inner.className = 'card';
+    inner.addEventListener('click', function () {
+      console.log('card ' + (i + 1) + ' clicked');
     });
-    canvas.appendChild(card);
+
+    wrap.appendChild(inner);
+    canvasEl.appendChild(wrap);
+
+    return { el: wrap, bx: def.bx, by: def.by, tileCol: 0, tileRow: 0 };
   });
 
-  // --- Parallax + Drag system ---
+  function updateCardPosition(c) {
+    c.el.style.left = (c.bx + c.tileCol * TILE_W) + 'px';
+    c.el.style.top = (c.by + c.tileRow * TILE_H) + 'px';
+  }
+
+  // Center cards around viewport on init
+  var initVW = window.innerWidth;
+  var initVH = window.innerHeight;
+  cards.forEach(function (c) {
+    c.tileCol = Math.round((initVW / 2 - c.bx) / TILE_W);
+    c.tileRow = Math.round((initVH / 2 - c.by) / TILE_H);
+    updateCardPosition(c);
+  });
+
+  // --- State ---
   var parallaxTarget = { x: 0, y: 0 };
   var parallaxCurrent = { x: 0, y: 0 };
   var dragTarget = { x: 0, y: 0 };
   var dragCurrent = { x: 0, y: 0 };
+  var velocity = { x: 0, y: 0 };
 
   var isDragging = false;
   var startDragX = 0, startDragY = 0;
   var dragOffsetAtStart = { x: 0, y: 0 };
-
-  // Velocity tracking
-  var mouseHistory = [];
-  var lastMoveTime = 0;
+  var prevDragCurrent = { x: 0, y: 0 };
 
   function lerp(a, b, t) { return a + (b - a) * t; }
 
-  function softBound(val, limit) {
-    if (val > limit) {
-      val -= (val - limit) * 0.85;
-    } else if (val < -limit) {
-      val -= (val + limit) * 0.85;
-    }
-    return val;
-  }
-
-  // Mouse parallax
+  // --- Mouse parallax ---
   document.addEventListener('mousemove', function (e) {
     if (!isDragging) {
       parallaxTarget.x = (e.clientX - window.innerWidth / 2) * 0.08;
       parallaxTarget.y = (e.clientY - window.innerHeight / 2) * 0.08;
     }
-
     if (isDragging) {
       dragTarget.x = dragOffsetAtStart.x + (e.clientX - startDragX);
       dragTarget.y = dragOffsetAtStart.y + (e.clientY - startDragY);
-      dragTarget.x = softBound(dragTarget.x, 600);
-      dragTarget.y = softBound(dragTarget.y, 800);
-
-      var now = performance.now();
-      mouseHistory.push({ x: e.clientX, y: e.clientY, t: now });
-      if (mouseHistory.length > 5) mouseHistory.shift();
     }
   });
 
-  // Drag start
-  canvas.addEventListener('mousedown', function (e) {
+  // --- Wheel scroll (slowed 20%) ---
+  window.addEventListener('wheel', function (e) {
+    e.preventDefault();
+    velocity.x -= e.deltaX * 0.42;
+    velocity.y -= e.deltaY * 0.42;
+    var MAX_VEL = 25;
+    velocity.x = Math.max(-MAX_VEL, Math.min(MAX_VEL, velocity.x));
+    velocity.y = Math.max(-MAX_VEL, Math.min(MAX_VEL, velocity.y));
+  }, { passive: false });
+
+  // --- Mouse drag ---
+  viewportEl.addEventListener('mousedown', function (e) {
     isDragging = true;
-    canvas.classList.add('is-dragging');
+    viewportEl.classList.add('is-dragging');
     startDragX = e.clientX;
     startDragY = e.clientY;
     dragOffsetAtStart.x = dragTarget.x;
     dragOffsetAtStart.y = dragTarget.y;
-    mouseHistory = [{ x: e.clientX, y: e.clientY, t: performance.now() }];
+    velocity.x = 0;
+    velocity.y = 0;
+    prevDragCurrent.x = dragCurrent.x;
+    prevDragCurrent.y = dragCurrent.y;
   });
 
-  // Drag end + momentum
   document.addEventListener('mouseup', function () {
     if (!isDragging) return;
     isDragging = false;
-    canvas.classList.remove('is-dragging');
-
-    if (mouseHistory.length >= 2) {
-      var last = mouseHistory[mouseHistory.length - 1];
-      var prev = mouseHistory[Math.max(0, mouseHistory.length - 3)];
-      var dt = last.t - prev.t;
-      if (dt > 0 && dt < 200) {
-        var vx = (last.x - prev.x) / dt * 16;
-        var vy = (last.y - prev.y) / dt * 16;
-        dragTarget.x += vx * 0.4;
-        dragTarget.y += vy * 0.4;
-        dragTarget.x = softBound(dragTarget.x, 600);
-        dragTarget.y = softBound(dragTarget.y, 800);
-      }
-    }
-    mouseHistory = [];
+    viewportEl.classList.remove('is-dragging');
+    velocity.x = (dragCurrent.x - prevDragCurrent.x) * 0.4;
+    velocity.y = (dragCurrent.y - prevDragCurrent.y) * 0.4;
   });
 
-  // Touch support
-  canvas.addEventListener('touchstart', function (e) {
+  // --- Touch ---
+  viewportEl.addEventListener('touchstart', function (e) {
     var t = e.touches[0];
     isDragging = true;
-    canvas.classList.add('is-dragging');
+    viewportEl.classList.add('is-dragging');
     startDragX = t.clientX;
     startDragY = t.clientY;
     dragOffsetAtStart.x = dragTarget.x;
     dragOffsetAtStart.y = dragTarget.y;
-    mouseHistory = [{ x: t.clientX, y: t.clientY, t: performance.now() }];
+    velocity.x = 0;
+    velocity.y = 0;
+    prevDragCurrent.x = dragCurrent.x;
+    prevDragCurrent.y = dragCurrent.y;
   }, { passive: true });
 
   document.addEventListener('touchmove', function (e) {
@@ -280,44 +296,57 @@
     var t = e.touches[0];
     dragTarget.x = dragOffsetAtStart.x + (t.clientX - startDragX);
     dragTarget.y = dragOffsetAtStart.y + (t.clientY - startDragY);
-    dragTarget.x = softBound(dragTarget.x, 600);
-    dragTarget.y = softBound(dragTarget.y, 800);
-
-    mouseHistory.push({ x: t.clientX, y: t.clientY, t: performance.now() });
-    if (mouseHistory.length > 5) mouseHistory.shift();
   }, { passive: false });
 
   document.addEventListener('touchend', function () {
     if (!isDragging) return;
     isDragging = false;
-    canvas.classList.remove('is-dragging');
-
-    if (mouseHistory.length >= 2) {
-      var last = mouseHistory[mouseHistory.length - 1];
-      var prev = mouseHistory[Math.max(0, mouseHistory.length - 3)];
-      var dt = last.t - prev.t;
-      if (dt > 0 && dt < 200) {
-        var vx = (last.x - prev.x) / dt * 16;
-        var vy = (last.y - prev.y) / dt * 16;
-        dragTarget.x += vx * 0.4;
-        dragTarget.y += vy * 0.4;
-        dragTarget.x = softBound(dragTarget.x, 600);
-        dragTarget.y = softBound(dragTarget.y, 800);
-      }
-    }
-    mouseHistory = [];
+    viewportEl.classList.remove('is-dragging');
+    velocity.x = (dragCurrent.x - prevDragCurrent.x) * 0.4;
+    velocity.y = (dragCurrent.y - prevDragCurrent.y) * 0.4;
   });
 
-  // rAF loop
+  // --- Wrap cards (when 200px past viewport edge) ---
+  function wrapCards(fx, fy) {
+    var vw = window.innerWidth;
+    var vh = window.innerHeight;
+    for (var i = 0; i < cards.length; i++) {
+      var c = cards[i];
+      var screenX = c.bx + c.tileCol * TILE_W + fx;
+      var screenY = c.by + c.tileRow * TILE_H + fy;
+
+      if (screenX < -600) { c.tileCol++; updateCardPosition(c); }
+      else if (screenX > vw + 600) { c.tileCol--; updateCardPosition(c); }
+
+      if (screenY < -600) { c.tileRow++; updateCardPosition(c); }
+      else if (screenY > vh + 600) { c.tileRow--; updateCardPosition(c); }
+    }
+  }
+
+  // --- rAF loop ---
   function tick() {
+    prevDragCurrent.x = dragCurrent.x;
+    prevDragCurrent.y = dragCurrent.y;
+
     parallaxCurrent.x = lerp(parallaxCurrent.x, parallaxTarget.x, 0.06);
     parallaxCurrent.y = lerp(parallaxCurrent.y, parallaxTarget.y, 0.06);
+
+    dragTarget.x += velocity.x;
+    dragTarget.y += velocity.y;
+    velocity.x *= 0.78;
+    velocity.y *= 0.78;
+    var MAX_VEL = 25;
+    velocity.x = Math.max(-MAX_VEL, Math.min(MAX_VEL, velocity.x));
+    velocity.y = Math.max(-MAX_VEL, Math.min(MAX_VEL, velocity.y));
+
     dragCurrent.x = lerp(dragCurrent.x, dragTarget.x, 0.10);
     dragCurrent.y = lerp(dragCurrent.y, dragTarget.y, 0.10);
 
     var fx = parallaxCurrent.x + dragCurrent.x;
     var fy = parallaxCurrent.y + dragCurrent.y;
-    canvas.style.transform = 'translate(' + fx + 'px,' + fy + 'px)';
+
+    canvasEl.style.transform = 'translate(' + fx + 'px,' + fy + 'px)';
+    wrapCards(fx, fy);
 
     requestAnimationFrame(tick);
   }
