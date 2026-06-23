@@ -20,6 +20,7 @@ STRUCTURE
 /
 ├── CLAUDE.md
 ├── home.html              ← the entire site lives here
+├── library.html           ← scattered card gallery (12 skill cards, infinite scroll)
 ├── .gitignore
 ├── .git/
 ├── .claude/

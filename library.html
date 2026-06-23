@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Library — Baite Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f1efe1;
+    --accent: #1A1A1A;
+    --text-dim: #444444;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    font-family: 'Manrope', sans-serif;
+    background: var(--bg);
+    color: var(--accent);
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+  }
+
+  /* NAVBAR */
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: var(--bg);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    z-index: 50;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+  }
+  .navbar-logo {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .navbar-center {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .navbar-center:hover { color: var(--accent); }
+  .navbar-cta {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--bg);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 10px 24px;
+    border-radius: 60px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+  }
+  .navbar-cta:hover {
+    transform: scale(1.03) translateY(-2px);
+  }
+  .navbar-cta:active { transform: scale(0.98); }
+
+  /* WATERMARK */
+  .watermark {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    pointer-events: none;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 800;
+    font-size: clamp(6rem, 18vw, 18rem);
+    color: rgba(26, 26, 26, 0.04);
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  /* CANVAS VIEWPORT */
+  .canvas-viewport {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .tile-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    will-change: transform;
+    cursor: grab;
+    user-select: none;
+  }
+  .tile-canvas.is-dragging {
+    cursor: grabbing;
+  }
+
+  /* CARD */
+  .card {
+    position: absolute;
+    background: #FFFFFF;
+    border-radius: 12px;
+    cursor: pointer;
+    transform: rotate(var(--card-rotate, 0deg));
+    transition: transform 0.4s cubic-bezier(0.34, 2.2, 0.64, 1);
+  }
+  .card:hover {
+    transform: scale(1.04) rotate(0deg) !important;
+  }
+
+  /* MOBILE */
+  @media (max-width: 767px) {
+    .navbar-center { display: none; }
+    .navbar { padding: 0 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="navbar-logo">Baite Studio</a>
+  <a href="index.html" class="navbar-center">Home</a>
+  <a href="#" class="navbar-cta">Apply Now</a>
+</nav>
+
+<div class="watermark">LIBRARY</div>
+
+<div class="canvas-viewport">
+  <div class="tile-canvas" id="canvas"></div>
+</div>
+
+<script>
+  const cardDefs = [
+    { left: 5, top: 4, w: 110, h: 130, rot: -2 },
+    { left: 40, top: 2, w: 150, h: 170, rot: 1.5 },
+    { left: 72, top: 6, w: 120, h: 140, rot: -1 },
+    { left: 18, top: 24, w: 170, h: 190, rot: 2 },
+    { left: 55, top: 22, w: 130, h: 150, rot: -3 },
+    { left: 78, top: 28, w: 110, h: 130, rot: 1 },
+    { left: 8, top: 46, w: 140, h: 160, rot: -1.5 },
+    { left: 35, top: 44, w: 110, h: 130, rot: 2.5 },
+    { left: 62, top: 48, w: 150, h: 170, rot: -2 },
+    { left: 3, top: 68, w: 130, h: 150, rot: 1 },
+    { left: 42, top: 66, w: 170, h: 190, rot: -1.5 },
+    { left: 75, top: 70, w: 120, h: 140, rot: 2 }
+  ];
+
+  var canvas = document.getElementById('canvas');
+
+  var canvasW = window.innerWidth;
+  var canvasH = window.innerHeight * 2;
+  canvas.style.width = canvasW + 'px';
+  canvas.style.height = canvasH + 'px';
+
+  cardDefs.forEach(function (def, i) {
+    var card = document.createElement('div');
+    card.className = 'card';
+    card.style.left = (def.left / 100) * canvasW + 'px';
+    card.style.top = (def.top / 100) * canvasH + 80 + 'px';
+    card.style.width = def.w + 'px';
+    card.style.height = def.h + 'px';
+    card.style.setProperty('--card-rotate', def.rot + 'deg');
+    card.addEventListener('click', function () {
+      console.log('skill ' + (i + 1) + ' clicked');
+    });
+    canvas.appendChild(card);
+  });
+
+  // --- Parallax + Drag system ---
+  var parallaxTarget = { x: 0, y: 0 };
+  var parallaxCurrent = { x: 0, y: 0 };
+  var dragTarget = { x: 0, y: 0 };
+  var dragCurrent = { x: 0, y: 0 };
+
+  var isDragging = false;
+  var startDragX = 0, startDragY = 0;
+  var dragOffsetAtStart = { x: 0, y: 0 };
+
+  // Velocity tracking
+  var mouseHistory = [];
+  var lastMoveTime = 0;
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  function softBound(val, limit) {
+    if (val > limit) {
+      val -= (val - limit) * 0.85;
+    } else if (val < -limit) {
+      val -= (val + limit) * 0.85;
+    }
+    return val;
+  }
+
+  // Mouse parallax
+  document.addEventListener('mousemove', function (e) {
+    if (!isDragging) {
+      parallaxTarget.x = (e.clientX - window.innerWidth / 2) * 0.08;
+      parallaxTarget.y = (e.clientY - window.innerHeight / 2) * 0.08;
+    }
+
+    if (isDragging) {
+      dragTarget.x = dragOffsetAtStart.x + (e.clientX - startDragX);
+      dragTarget.y = dragOffsetAtStart.y + (e.clientY - startDragY);
+      dragTarget.x = softBound(dragTarget.x, 600);
+      dragTarget.y = softBound(dragTarget.y, 800);
+
+      var now = performance.now();
+      mouseHistory.push({ x: e.clientX, y: e.clientY, t: now });
+      if (mouseHistory.length > 5) mouseHistory.shift();
+    }
+  });
+
+  // Drag start
+  canvas.addEventListener('mousedown', function (e) {
+    isDragging = true;
+    canvas.classList.add('is-dragging');
+    startDragX = e.clientX;
+    startDragY = e.clientY;
+    dragOffsetAtStart.x = dragTarget.x;
+    dragOffsetAtStart.y = dragTarget.y;
+    mouseHistory = [{ x: e.clientX, y: e.clientY, t: performance.now() }];
+  });
+
+  // Drag end + momentum
+  document.addEventListener('mouseup', function () {
+    if (!isDragging) return;
+    isDragging = false;
+    canvas.classList.remove('is-dragging');
+
+    if (mouseHistory.length >= 2) {
+      var last = mouseHistory[mouseHistory.length - 1];
+      var prev = mouseHistory[Math.max(0, mouseHistory.length - 3)];
+      var dt = last.t - prev.t;
+      if (dt > 0 && dt < 200) {
+        var vx = (last.x - prev.x) / dt * 16;
+        var vy = (last.y - prev.y) / dt * 16;
+        dragTarget.x += vx * 0.4;
+        dragTarget.y += vy * 0.4;
+        dragTarget.x = softBound(dragTarget.x, 600);
+        dragTarget.y = softBound(dragTarget.y, 800);
+      }
+    }
+    mouseHistory = [];
+  });
+
+  // Touch support
+  canvas.addEventListener('touchstart', function (e) {
+    var t = e.touches[0];
+    isDragging = true;
+    canvas.classList.add('is-dragging');
+    startDragX = t.clientX;
+    startDragY = t.clientY;
+    dragOffsetAtStart.x = dragTarget.x;
+    dragOffsetAtStart.y = dragTarget.y;
+    mouseHistory = [{ x: t.clientX, y: t.clientY, t: performance.now() }];
+  }, { passive: true });
+
+  document.addEventListener('touchmove', function (e) {
+    e.preventDefault();
+    if (!isDragging) return;
+    var t = e.touches[0];
+    dragTarget.x = dragOffsetAtStart.x + (t.clientX - startDragX);
+    dragTarget.y = dragOffsetAtStart.y + (t.clientY - startDragY);
+    dragTarget.x = softBound(dragTarget.x, 600);
+    dragTarget.y = softBound(dragTarget.y, 800);
+
+    mouseHistory.push({ x: t.clientX, y: t.clientY, t: performance.now() });
+    if (mouseHistory.length > 5) mouseHistory.shift();
+  }, { passive: false });
+
+  document.addEventListener('touchend', function () {
+    if (!isDragging) return;
+    isDragging = false;
+    canvas.classList.remove('is-dragging');
+
+    if (mouseHistory.length >= 2) {
+      var last = mouseHistory[mouseHistory.length - 1];
+      var prev = mouseHistory[Math.max(0, mouseHistory.length - 3)];
+      var dt = last.t - prev.t;
+      if (dt > 0 && dt < 200) {
+        var vx = (last.x - prev.x) / dt * 16;
+        var vy = (last.y - prev.y) / dt * 16;
+        dragTarget.x += vx * 0.4;
+        dragTarget.y += vy * 0.4;
+        dragTarget.x = softBound(dragTarget.x, 600);
+        dragTarget.y = softBound(dragTarget.y, 800);
+      }
+    }
+    mouseHistory = [];
+  });
+
+  // rAF loop
+  function tick() {
+    parallaxCurrent.x = lerp(parallaxCurrent.x, parallaxTarget.x, 0.06);
+    parallaxCurrent.y = lerp(parallaxCurrent.y, parallaxTarget.y, 0.06);
+    dragCurrent.x = lerp(dragCurrent.x, dragTarget.x, 0.10);
+    dragCurrent.y = lerp(dragCurrent.y, dragTarget.y, 0.10);
+
+    var fx = parallaxCurrent.x + dragCurrent.x;
+    var fy = parallaxCurrent.y + dragCurrent.y;
+    canvas.style.transform = 'translate(' + fx + 'px,' + fy + 'px)';
+
+    requestAnimationFrame(tick);
+  }
+  tick();
+</script>
+</body>
+</html>
