@@ -57,150 +57,108 @@
             top: 0;
             left: 0;
             right: 0;
+            height: 60px;
             z-index: 100;
-            padding: 16px 40px;
+            padding: 0 40px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             background: transparent;
-            border-bottom: 1px solid transparent;
-            transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease,
-                backdrop-filter 0.35s ease;
+            transition: color 0.3s ease;
         }
-
-        .nav::before,
-        .nav::after {
-            content: none;
-        }
-
-        .nav.scrolled {
-            background: rgba(255, 255, 255, 0.33);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-color: rgba(255, 255, 255, 0.3);
-            box-shadow:
-                0 8px 32px rgba(0, 0, 0, 0.07),
-                inset 0 1px 0 rgba(255, 255, 255, 0.5),
-                inset 0 -1px 0 rgba(255, 255, 255, 0.1),
-                inset 0 0 6px 3px rgba(255, 255, 255, 0.3);
-        }
-
-        .nav.scrolled::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
-        }
-
-        .nav.scrolled::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 1px;
-            height: 100%;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.8), transparent, rgba(255, 255, 255, 0.3));
+        .nav.nav--light .nav-wordmark,
+        .nav.nav--light .nav-link {
+            color: #fff;
         }
 
         .nav-wordmark {
-            font-size: 1.05rem;
+            font-size: 0.85rem;
             font-weight: 700;
-            letter-spacing: -0.02em;
             color: var(--text);
             text-decoration: none;
+            transition: color 0.3s ease;
         }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-link {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover { color: var(--text); }
+        .nav.nav--light .nav-link { color: rgba(255,255,255,0.7); }
+        .nav.nav--light .nav-link:hover { color: #fff; }
+
+        .nav-cta {
+            display: inline-block;
+            background: rgba(249, 115, 22, 0.88);
+            backdrop-filter: blur(16px) saturate(140%);
+            -webkit-backdrop-filter: blur(16px) saturate(140%);
+            color: #fff;
+            font-family: 'Manrope', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 12px 30px;
+            border-radius: 60px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow:
+                0 2px 16px rgba(249, 115, 22, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 8px 28px rgba(249, 115, 22, 0.35),
+                inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        }
+        .nav-cta:active { transform: scale(0.98); }
 
         .btn-primary {
             position: relative;
             overflow: hidden;
-            background: #F97316;
+            background: rgba(249, 115, 22, 0.88);
+            backdrop-filter: blur(16px) saturate(140%);
+            -webkit-backdrop-filter: blur(16px) saturate(140%);
             color: #fff;
             font-family: 'Manrope', sans-serif;
-            font-weight: 800;
+            font-weight: 700;
             font-size: 0.875rem;
-            border: 3px solid #000;
+            border: 1px solid rgba(255, 255, 255, 0.25);
             border-radius: 60px;
-            padding: 12px 28px;
+            padding: 14px 32px;
             cursor: pointer;
             text-decoration: none;
             display: inline-block;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+            box-shadow:
+                0 2px 16px rgba(249, 115, 22, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             z-index: 0;
         }
-
-        /* sliding fill layer — orange for base hero button */
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: #1A1A1A;
-            border-radius: 60px;
-            transform: translateX(0);
-            transition: left 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-            z-index: -1;
-        }
-
-        .btn-primary:hover::before {
-            left: 0;
-        }
-
-        /* keep text above the sliding layer */
-        .btn-primary span,
-        .btn-primary {
-            transition: color 0.2s ease 0.1s;
-        }
+        .btn-primary::before { content: none; }
 
         .btn-primary:hover {
-            color: #fff;
+            transform: translateY(-2px);
+            box-shadow:
+                0 8px 28px rgba(249, 115, 22, 0.35),
+                inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        }
+        .btn-primary:active {
+            transform: scale(0.98);
         }
 
-        /* Nav + Conviction + Lead Magnet: black base, orange slide layer */
-        .nav .btn-primary,
-        .conviction-cta .btn-primary,
-        .lead-magnet-content .btn-primary,
         .modal-submit {
-            background: #1A1A1A;
-            color: #fff;
-            border: 3px solid #000;
-        }
-
-        .nav .btn-primary::before,
-        .conviction-cta .btn-primary::before,
-        .lead-magnet-content .btn-primary::before,
-        .modal-submit::before {
-            background: #F97316;
-        }
-
-        .nav .btn-primary:hover,
-        .conviction-cta .btn-primary:hover,
-        .lead-magnet-content .btn-primary:hover,
-        .modal-submit:hover {
-            color: #fff;
-        }
-
-        /* Nav Apply Now — hidden until hero scrolls out */
-        #open-modal-nav {
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        #open-modal-nav.visible {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        @media (max-width: 768px) {
-            #open-modal-nav {
-                font-size: 0.75rem;
-                padding: 10px 18px;
-            }
+            width: 100%;
         }
 
         /* ── SOCIAL PROOF PILL ── */
@@ -776,11 +734,23 @@
             padding: clamp(80px, 12vw, 160px) clamp(24px, 6vw, 80px);
             display: flex;
             justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .conviction .trail-layer {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
         }
 
         .conviction-inner {
             max-width: 680px;
             width: 100%;
+            position: relative;
+            z-index: 1;
             display: flex;
             flex-direction: column;
             gap: 2em;
@@ -822,15 +792,69 @@
         }
 
         .conviction-cta .btn-primary {
-            font-weight: 700;
-            font-size: clamp(1.5rem, 1.8vw, 1.625rem);
+            font-size: clamp(1.1rem, 1.5vw, 1.3rem);
             padding: 18px 48px;
-            border-width: 4px;
+        }
+
+        /* ── SKILLS CAROUSEL ── */
+        #skills-carousel {
+            padding: 60px 0 0;
+            background: var(--bg);
+            overflow: hidden;
+        }
+        .skills-carousel-header {
+            margin: 0 auto 14px;
+            padding: 0 clamp(24px, 5vw, 80px);
+            text-align: center;
+        }
+        .skills-label {
+            font-weight: 800;
+            font-size: clamp(2rem, 9vw, 7rem);
+            color: var(--text);
+            letter-spacing: -0.04em;
+            line-height: 0.95;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            white-space: nowrap;
+        }
+        .skills-sub {
+            font-weight: 400;
+            font-size: clamp(0.85rem, 1.1vw, 1rem);
+            color: var(--text-dim);
+            line-height: 1.5;
+            max-width: 560px;
+            margin: 0 auto 16px;
+        }
+        .skills-track-wrapper {
+            position: relative;
+            height: 500px;
+            cursor: grab;
+            user-select: none;
+            overflow: hidden;
+            touch-action: none;
+        }
+        .skills-track-wrapper.is-dragging { cursor: grabbing; }
+        .skills-card {
+            position: absolute;
+            width: 264px;
+            height: 360px;
+            border-radius: 18px;
+            background: #E8E4D9;
+            display: block;
+            text-decoration: none;
+            will-change: transform;
+            top: 50%;
+            left: 0;
+            margin-left: -132px;
+            margin-top: -180px;
         }
 
         @media (max-width: 768px) {
             .nav {
-                padding: 14px 20px;
+                padding: 0 20px;
+            }
+            .nav {
+                display: none;
             }
 
             .hero {
@@ -864,6 +888,16 @@
 
             .features-inner {
                 max-width: 92vw;
+            }
+
+            .skills-card {
+                width: 168px;
+                height: 228px;
+                margin-left: -84px;
+                margin-top: -114px;
+            }
+            .skills-track-wrapper {
+                height: 380px;
             }
         }
 
@@ -1206,10 +1240,8 @@
         }
 
         .lead-magnet-btn {
-            font-weight: 700;
-            font-size: clamp(1.5rem, 1.8vw, 1.625rem);
+            font-size: clamp(1.1rem, 1.5vw, 1.3rem);
             padding: 18px 48px;
-            border-width: 4px;
             margin-top: 8px;
         }
 
@@ -1273,7 +1305,10 @@
     <!-- NAV -->
     <nav class="nav" id="nav">
         <a href="/" class="nav-wordmark">Baite Studio</a>
-        <a href="#community" class="btn-primary cta-btn" id="open-modal-nav">Apply Now</a>
+        <div class="nav-right">
+            <a href="library.html" class="nav-link">Library</a>
+            <a href="#community" class="nav-cta cta-btn" id="open-modal-nav">Apply Now</a>
+        </div>
     </nav>
 
     <!-- HERO -->
@@ -1426,6 +1461,28 @@
             <div class="conviction-cta">
                 <a href="#community" class="btn-primary cta-btn">Apply Now</a>
             </div>
+        </div>
+    </section>
+
+    <!-- SKILLS CAROUSEL -->
+    <section id="skills-carousel">
+        <div class="skills-carousel-header">
+            <h2 class="skills-label">Skill Library</h2>
+            <p class="skills-sub">Instant upgrades for your brain, minus the existential dread. These plug-and-play AI skills act like digital espresso shots for your productivity. Zero configuration required, and guaranteed to skyrocket your productivity.</p>
+        </div>
+        <div class="skills-track-wrapper" id="skills-wrapper">
+            <a href="library.html" class="skills-card"></a>
+            <a href="library.html" class="skills-card"></a>
+            <a href="library.html" class="skills-card"></a>
+            <a href="library.html" class="skills-card"></a>
+            <a href="library.html" class="skills-card"></a>
+            <a href="library.html" class="skills-card"></a>
+            <a href="library.html" class="skills-card"></a>
+            <a href="library.html" class="skills-card"></a>
+            <a href="library.html" class="skills-card"></a>
+            <a href="library.html" class="skills-card"></a>
+            <a href="library.html" class="skills-card"></a>
+            <a href="library.html" class="skills-card"></a>
         </div>
     </section>
 
@@ -1617,10 +1674,7 @@
         gsap.ticker.lagSmoothing(0);
         gsap.registerPlugin(ScrollTrigger);
 
-        /* Nav */
-        window.addEventListener('scroll', () => {
-            document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
-        }, { passive: true });
+        /* Nav — no scroll toggle needed, solid bg always */
 
         /* Headline word reveal */
         gsap.to('.word-inner', { translateY: '0%', stagger: 0.08, duration: 0.9, delay: 0.15, ease: 'power3.out' });
@@ -1934,25 +1988,30 @@
         })();
     </script>
 
-    <!-- ── CURSOR TRAIL ── -->
-    <div id="trail-container" style="position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden;"></div>
+    <!-- ── CURSOR TRAIL (injected into conviction) ── -->
     <script>
         if (window.matchMedia('(pointer: fine)').matches) {
             (function () {
-                const container = document.getElementById('trail-container');
+                const convictionEl = document.getElementById('conviction');
+                const container = document.createElement('div');
+                container.className = 'trail-layer';
+                convictionEl.insertBefore(container, convictionEl.firstChild);
 
-                const ASSETS = [
-                    'assets/images/2.svg',
-                    'assets/images/3.svg',
-                    'assets/images/4.svg',
+                // Image rectangles with black border
+                // TODO: replace bg color with background-image once real images are provided
+                const SIZES = [
+                    { w: 160, h: 200 },
+                    { w: 200, h: 140 },
+                    { w: 140, h: 180 },
+                    { w: 220, h: 160 },
+                    { w: 180, h: 220 },
                 ];
 
                 const particles = [];
                 let lastSpawn = 0;
                 let lastX = 0, lastY = 0;
-                const THROTTLE = 120;
-                const MIN_DIST = 25;
-                const GRAVITY = 0.025;
+                const THROTTLE = 220;
+                const MIN_DIST = 60;
 
                 function handleMouseMove(e) {
                     const now = Date.now();
@@ -1964,23 +2023,17 @@
                     lastX = e.clientX;
                     lastY = e.clientY;
 
-                    const size = 54;
-                    const src = ASSETS[Math.floor(Math.random() * ASSETS.length)];
+                    const rect = convictionEl.getBoundingClientRect();
+                    const relX = e.clientX - rect.left;
+                    const relY = e.clientY - rect.top;
+
+                    const sz = SIZES[Math.floor(Math.random() * SIZES.length)];
+                    const rot = (Math.random() - 0.5) * 24;
                     const el = document.createElement('div');
-                    el.style.cssText = `position:absolute;width:${size}px;height:${size}px;left:${e.clientX - size / 2}px;top:${e.clientY - size / 2}px;pointer-events:none;will-change:transform,opacity;`;
-                    el.innerHTML = `<img src="${src}" style="width:100%;height:100%;display:block;" draggable="false" />`;
+                    el.style.cssText = `position:absolute;width:${sz.w}px;height:${sz.h}px;left:${relX - sz.w / 2}px;top:${relY - sz.h / 2}px;pointer-events:none;will-change:opacity;background:#E8E4D9;border:2px solid #1A1A1A;border-radius:6px;transform:rotate(${rot}deg);opacity:1;transition:opacity 2.5s ease;`;
                     container.appendChild(el);
 
-                    particles.push({
-                        el,
-                        x: e.clientX - size / 2,
-                        y: e.clientY - size / 2,
-                        vx: (Math.random() - 0.5) * 1.0,
-                        vy: -(Math.random() * 0.6 + 0.2),
-                        rotation: (Math.random() - 0.5) * 20,
-                        spin: (Math.random() - 0.5) * 1.5,
-                        opacity: 1.0,
-                    });
+                    particles.push({ el, born: now });
                 }
 
                 // Fish cursor — hero only, no trail
@@ -1988,27 +2041,20 @@
                 heroEl.addEventListener('mouseenter', () => document.body.classList.add('hero-fish-cursor'));
                 heroEl.addEventListener('mouseleave', () => document.body.classList.remove('hero-fish-cursor'));
 
-                // Trailing icons — conviction section only
-                const convictionEl = document.getElementById('conviction');
                 convictionEl.addEventListener('mousemove', handleMouseMove);
 
                 function tick() {
+                    const now = Date.now();
                     for (let i = particles.length - 1; i >= 0; i--) {
                         const p = particles[i];
-                        p.vy += GRAVITY;
-                        p.x += p.vx;
-                        p.y += p.vy;
-                        p.rotation += p.spin;
-                        p.opacity -= 0.01;
-
-                        if (p.opacity <= 0) {
+                        const age = now - p.born;
+                        if (age > 3500 && p.el.style.opacity !== '0') {
+                            p.el.style.opacity = '0';
+                        }
+                        if (age > 6000) {
                             p.el.remove();
                             particles.splice(i, 1);
-                            continue;
                         }
-
-                        p.el.style.transform = `translate(${p.x - parseFloat(p.el.style.left)}px, ${p.y - parseFloat(p.el.style.top)}px) rotate(${p.rotation}deg)`;
-                        p.el.style.opacity = p.opacity;
                     }
                     requestAnimationFrame(tick);
                 }
@@ -2016,19 +2062,122 @@
             })();
         } // end pointer: fine
 
-        // Nav button — reveal after hero scrolls out
-        const navBtn = document.getElementById('open-modal-nav');
-        const hero = document.getElementById('hero');
-        const heroObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (!entry.isIntersecting) {
-                    navBtn.classList.add('visible');
-                } else {
-                    navBtn.classList.remove('visible');
+        // Nav color swap on dark sections
+        (function () {
+            var nav = document.getElementById('nav');
+            var darkSections = document.querySelectorAll('.features, .testimonials');
+            function checkNav() {
+                var navBottom = 60;
+                var onDark = false;
+                darkSections.forEach(function (sec) {
+                    var rect = sec.getBoundingClientRect();
+                    if (rect.top < navBottom && rect.bottom > 0) onDark = true;
+                });
+                nav.classList.toggle('nav--light', onDark);
+            }
+            window.addEventListener('scroll', checkNav, { passive: true });
+            checkNav();
+        })();
+
+        // ── SKILLS CAROUSEL — ARC LAYOUT ──
+        (function () {
+            var skWrapper = document.getElementById('skills-wrapper');
+            if (!skWrapper) return;
+            var skCards = skWrapper.querySelectorAll('.skills-card');
+            var N = skCards.length;
+            var ARC_RADIUS = 800;
+            var REST_SP_D = 270, DRAG_SP_D = 320;
+            var REST_SP_M = 180, DRAG_SP_M = 210;
+            var MAX_VEL_MOBILE = 10;
+
+            var skScrollX = 0, skVelocity = 0;
+            var skDragging = false, skStartX = 0, skStartScrollX = 0, skLastX = 0;
+            var skClickStartX = 0;
+            var initSp = (skWrapper.clientWidth < 768) ? REST_SP_M : REST_SP_D;
+            var currentSp = initSp;
+            var targetSp = initSp;
+
+            function skLerp(a, b, t) { return a + (b - a) * t; }
+            function isMobile() { return skWrapper.clientWidth < 768; }
+
+            function layoutCards() {
+                var ww = skWrapper.clientWidth;
+                var centerX = ww / 2;
+                var sp = currentSp;
+                var totalSpan = N * sp;
+
+                for (var i = 0; i < N; i++) {
+                    var baseX = i * sp;
+                    var raw = ((baseX + skScrollX) % totalSpan + totalSpan) % totalSpan;
+                    var screenX = raw - totalSpan / 2;
+
+                    var clamped = Math.max(-ARC_RADIUS * 0.95, Math.min(ARC_RADIUS * 0.95, screenX));
+                    var angle = Math.asin(clamped / ARC_RADIUS) * (180 / Math.PI);
+                    var dy = ARC_RADIUS - Math.sqrt(Math.max(0, ARC_RADIUS * ARC_RADIUS - clamped * clamped));
+
+                    skCards[i].style.transform =
+                        'translate(' + (centerX + screenX) + 'px, ' + dy + 'px) rotate(' + angle + 'deg)';
                 }
-            });
-        }, { threshold: 0 });
-        heroObserver.observe(hero);
+            }
+
+            function carouselTick() {
+                currentSp = skLerp(currentSp, targetSp, 0.06);
+
+                if (!skDragging) {
+                    skScrollX += skVelocity;
+                    skVelocity *= 0.93;
+                    if (Math.abs(skVelocity) < 0.05) skVelocity = 0;
+                }
+
+                layoutCards();
+                requestAnimationFrame(carouselTick);
+            }
+            carouselTick();
+
+            function startDrag(x) {
+                skDragging = true;
+                skWrapper.classList.add('is-dragging');
+                skStartX = x;
+                skStartScrollX = skScrollX;
+                skLastX = x;
+                skClickStartX = x;
+                skVelocity = 0;
+                targetSp = isMobile() ? DRAG_SP_M : DRAG_SP_D;
+                if (typeof lenis !== 'undefined') lenis.stop();
+            }
+            function endDrag() {
+                if (!skDragging) return;
+                skDragging = false;
+                skWrapper.classList.remove('is-dragging');
+                var maxV = isMobile() ? MAX_VEL_MOBILE : 16;
+                skVelocity = Math.max(-maxV, Math.min(maxV, skVelocity));
+                targetSp = isMobile() ? REST_SP_M : REST_SP_D;
+                if (typeof lenis !== 'undefined') lenis.start();
+            }
+            function moveDrag(x) {
+                if (!skDragging) return;
+                var delta = x - skStartX;
+                if (isMobile()) delta *= 0.85;
+                skScrollX = skStartScrollX + delta;
+                skVelocity = x - skLastX;
+                if (isMobile()) skVelocity *= 0.85;
+                skLastX = x;
+            }
+
+            skWrapper.addEventListener('mousedown', function (e) { e.preventDefault(); startDrag(e.clientX); });
+            document.addEventListener('mousemove', function (e) { moveDrag(e.clientX); });
+            document.addEventListener('mouseup', endDrag);
+            skWrapper.addEventListener('touchstart', function (e) { startDrag(e.touches[0].clientX); }, { passive: true });
+            skWrapper.addEventListener('touchmove', function (e) { e.preventDefault(); moveDrag(e.touches[0].clientX); }, { passive: false });
+            document.addEventListener('touchend', endDrag);
+
+            skWrapper.addEventListener('click', function (e) {
+                if (Math.abs(e.clientX - skClickStartX) > 5) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            }, true);
+        })();
     </script>
 
 
